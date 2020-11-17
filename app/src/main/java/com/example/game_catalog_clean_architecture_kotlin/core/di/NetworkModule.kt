@@ -1,5 +1,5 @@
-package com.dicoding.tourismapp.core.di
-
+package com.example.game_catalog_clean_architecture_kotlin.core.di
+import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.network.ApiService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -11,22 +11,22 @@ import java.util.concurrent.TimeUnit
 @Module
 class NetworkModule {
 
-//    @Provides
-//    fun provideOkHttpClient(): OkHttpClient {
-//        return OkHttpClient.Builder()
-//            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-//            .connectTimeout(120, TimeUnit.SECONDS)
-//            .readTimeout(120, TimeUnit.SECONDS)
-//            .build()
-//    }
-//
-//    @Provides
-//    fun provideApiService(client: OkHttpClient): ApiService {
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl("")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .client(client)
-//            .build()
-//        return retrofit.create(ApiService::class.java)
-//    }
+    @Provides
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build()
+    }
+
+    @Provides
+    fun provideApiService(client: OkHttpClient): ApiService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.rawg.io/api/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+        return retrofit.create(ApiService::class.java)
+    }
 }

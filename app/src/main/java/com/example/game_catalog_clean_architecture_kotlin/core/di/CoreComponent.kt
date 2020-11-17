@@ -1,4 +1,4 @@
-package com.dicoding.tourismapp.core.di
+package com.example.game_catalog_clean_architecture_kotlin.core.di
 
 import android.content.Context
 import dagger.BindsInstance

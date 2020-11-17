@@ -1,7 +1,4 @@
-package com.dicoding.tourismapp.core.di
-
-import com.dicoding.tourismapp.core.data.TourismRepository
-import com.dicoding.tourismapp.core.domain.repository.ITourismRepository
+package com.example.game_catalog_clean_architecture_kotlin.core.di
 import dagger.Binds
 import dagger.Module
 
@@ -9,7 +6,7 @@ import dagger.Module
 @Module(includes = [NetworkModule::class, DatabaseModule::class])
 abstract class RepositoryModule {
 
-    @Binds
-    abstract fun provideRepository(tourismRepository: TourismRepository): ITourismRepository
+//    @Binds
+//    abstract fun provideRepository(tourismRepository: TourismRepository): ITourismRepository
 
 }

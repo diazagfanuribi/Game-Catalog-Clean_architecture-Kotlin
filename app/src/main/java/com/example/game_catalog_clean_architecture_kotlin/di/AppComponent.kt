@@ -1,7 +1,7 @@
 package com.example.game_catalog_clean_architecture_kotlin.di
 
 
-import com.dicoding.tourismapp.core.di.CoreComponent
+import com.example.game_catalog_clean_architecture_kotlin.core.di.CoreComponent
 import com.example.game_catalog_clean_architecture_kotlin.home.HomeFragment
 import dagger.Component
 
