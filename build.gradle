@@ -10,6 +10,10 @@ buildscript {
     ext.retrofit = "2.9.0"
     ext.material_design="1.2.1"
     ext.navigation_version = "2.3.0"
+    ext.rxjava_version = "2.2.19"
+    ext.rxandroid_version = "2.1.1"
+    ext.paging_version = "3.0.0-alpha09"
+
     repositories {
         google()
         jcenter()

@@ -2,18 +2,20 @@ package com.example.game_catalog_clean_architecture_kotlin.core.data.source.remo
 
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.response.GameDetailResponse
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.response.ListGameResponses
+import io.reactivex.Flowable
+import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
     @GET("games")
-    suspend fun getGames
-            (@Query("ordering") ordering : String = "-rating",
-             @Query("page") page: Int,
-             @Query("per_page") perPage: Int
-    ): ListGameResponses
+    fun getGames(
+        @Query("ordering") ordering: String = "-rating",
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int
+    ): Single<ListGameResponses>
 
     @GET("games/{id}")
-    suspend fun getGamesDetail(@Path("id") id : String): GameDetailResponse
+    fun getGamesDetail(@Path("id") id: String): Single<GameDetailResponse>
 }

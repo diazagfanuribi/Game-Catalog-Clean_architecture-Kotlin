@@ -6,7 +6,7 @@ import com.example.game_catalog_clean_architecture_kotlin.core.domain.repository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class HomeRepository @Inject constructor() : IHomeRepository{
+class HomeRepository @Inject constructor() : IHomeRepository {
     override fun getGames(): Flow<Resource<List<Game>>> {
         TODO("Not yet implemented")
     }

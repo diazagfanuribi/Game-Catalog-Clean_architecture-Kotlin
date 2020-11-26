@@ -7,11 +7,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class GameDeveloperResponse(
         @field:SerializedName("id")
-        val id : Int,
+        val id: Int,
 
         @field:SerializedName("name")
-        val name : String,
+        val name: String,
 
         @field:SerializedName("image_background")
-        val image_url : String
-): Parcelable
+        val image_url: String
+) : Parcelable
