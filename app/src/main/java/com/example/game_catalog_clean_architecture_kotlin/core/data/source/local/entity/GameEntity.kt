@@ -15,32 +15,32 @@ data class GameEntity(
         var pk: Int,
 
         @ColumnInfo(name ="name")
-        val name : String,
+        var name : String,
 
         @ColumnInfo(name ="released_date")
-        val release: String,
+        var release: String,
 
         @ColumnInfo(name ="rating")
-        val rating : Float,
+        var rating : Float,
 
         @ColumnInfo(name ="background_image")
-        val image_url : String,
+        var image_url : String,
 
         @ColumnInfo(name ="description")
-        val description : String,
+        var description : String,
 
         @ColumnInfo(name ="background_image_additional")
-        val image_url_additional: String,
+        var image_url_additional: String,
 
         @ColumnInfo(name ="website")
-        val website : String,
+        var website : String,
 
         @ColumnInfo(name ="dominant_color")
-        val dominant_color : String,
+        var dominant_color : String,
 
         @ColumnInfo(name ="genres")
-        val genre : String,
+        var genre : String,
 
         @ColumnInfo(name ="isFavorite")
-        val isFavorite : Boolean = false
+        var isFavorite : Boolean = false
 )

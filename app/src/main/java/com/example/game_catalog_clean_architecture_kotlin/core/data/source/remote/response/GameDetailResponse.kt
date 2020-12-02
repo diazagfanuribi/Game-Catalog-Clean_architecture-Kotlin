@@ -2,9 +2,7 @@ package com.example.game_catalog_clean_architecture_kotlin.core.data.source.remo
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class GameDetailResponse(
     @field:SerializedName("id")
     val id: Int,
@@ -37,15 +35,14 @@ data class GameDetailResponse(
     val genre: List<Genre>,
 
     val isFavorite: Boolean = false
-) : Parcelable {
-    @Parcelize
+) {
     data class Genre(
         @field:SerializedName("name")
         val name: String,
 
         @field:SerializedName("image_background")
-        val image: String,
-    ) : Parcelable
+        val image: String
+    )
 
     val genres: String
         get() {

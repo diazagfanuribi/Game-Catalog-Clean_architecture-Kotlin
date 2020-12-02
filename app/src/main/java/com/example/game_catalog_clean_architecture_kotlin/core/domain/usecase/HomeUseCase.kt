@@ -1,11 +1,18 @@
 package com.example.game_catalog_clean_architecture_kotlin.core.domain.usecase
 
-import com.bumptech.glide.load.engine.Resource
+import androidx.paging.PagingData
+import com.example.game_catalog_clean_architecture_kotlin.core.data.Resource
 import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.Game
-import kotlinx.coroutines.flow.Flow
+import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.GameDeveloperModel
+import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.GameList
+import io.reactivex.Flowable
 
 interface HomeUseCase {
-    fun getGames() : Flow<Resource<List<Game>>>
+    fun getGames() : Flowable<PagingData<GameList>>
 
-    fun getDeveloper() : Flow<Resource<List<Game>>>
+    fun getDeveloper() : Flowable<Resource<List<GameDeveloperModel>>>
+
+    fun getFavorite(): Flowable<List<Game>>
+
+    fun setFavorite(game: Game, state: Boolean)
 }
