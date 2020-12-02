@@ -7,6 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.game_catalog_clean_architecture_kotlin.R
 import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.Game
 import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.GameDeveloperModel
 import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.GameList
@@ -52,7 +53,13 @@ class GameAdapter(private val listener: OnItemClickListener) :
             with(binding) {
                 Glide.with(itemView.context)
                     .load(data.image_url)
+                    .error(R.drawable.ic_error)
                     .into(imageGame)
+                textviewTitle.text = data.name
+                textviewRelease.text = data.release
+                textviewRating.text = data.rating.toString()
+                ratingBarGame.rating = data.rating
+
             }
         }
 

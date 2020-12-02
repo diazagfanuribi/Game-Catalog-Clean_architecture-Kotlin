@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,33 +25,31 @@ import com.example.game_catalog_clean_architecture_kotlin.core.ui.GameAdapter
 import com.example.game_catalog_clean_architecture_kotlin.core.ui.ViewModelFactory
 import com.example.game_catalog_clean_architecture_kotlin.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickListener {
     private val mDisposable = CompositeDisposable()
 
-    @Inject
-    lateinit var factory: ViewModelFactory
+//    @Inject
+//    lateinit var factory: ViewModelFactory
 
-    private val homeViewModel: HomeViewModel by viewModels {
-        factory
-    }
+    private val homeViewModel: HomeViewModel by viewModels()
+//    {
+//        factory
+//    }
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var developerAdapter: DeveloperAdapter
     private lateinit var gameAdapter: GameAdapter
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity().application as MyApplication).appComponent.inject(this)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        _binding = FragmentHomeBinding.bind(view)
         developerAdapter = DeveloperAdapter()
         gameAdapter = GameAdapter(this)
 
@@ -67,6 +66,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
                 when (developer) {
                     is Resource.Loading -> binding.progressBarDev.visibility = View.VISIBLE
                     is Resource.Success -> {
+                        Log.d("RRAWG", developer.data.toString())
                         binding.progressBarDev.visibility = View.GONE
                         developerAdapter.setData(developer.data)
                     }
@@ -90,8 +90,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
 
         with(binding) {
             rvGame.layoutManager = LinearLayoutManager(context)
-            rvGame.setHasFixedSize(true)
-            rvGame.adapter = developerAdapter
+            rvGame.setHasFixedSize(false)
+            rvGame.adapter = gameAdapter
 //            adapter = gameAdapter.withLoadStateFooter(
 //                footer =
             game_caution_button.setOnClickListener {
@@ -120,7 +120,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
     override fun onDestroyView() {
         mDisposable.dispose()
         super.onDestroyView()
-        _binding = null
     }
 
     override fun onItemClick(game: GameList) {

@@ -67,10 +67,10 @@ object Mapper {
         input.map {
             val gameList = GameList(
                 id = it.id,
-                name = it.name,
-                release = it.release,
-                rating = it.rating,
-                image_url = it.image_url,
+                name = it.name ?: "Unknown",
+                release = it.release ?: "-",
+                rating = it.rating ?: 0F,
+                image_url = it.image_url ?: "",
                 isFavorite = it.isFavorite
             )
             gameLists.add(gameList)

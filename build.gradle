@@ -14,6 +14,8 @@ buildscript {
     ext.rxandroid_version = "2.1.1"
     ext.paging_version = "3.0.0-alpha05"
 
+    ext.hilt_version = '2.28-alpha'
+    ext.hilt_jetpack_version = '1.0.0-alpha02'
 
     repositories {
         google()
@@ -22,6 +24,8 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+
 
 
         def nav_version = "2.3.0"

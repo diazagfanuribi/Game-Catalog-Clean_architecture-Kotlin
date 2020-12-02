@@ -4,15 +4,19 @@ import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remot
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.network.ApiService
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.response.GameDetailResponse
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.response.GameDeveloperResponse
+import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.response.ListGameResponses
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
-    fun getGames(page : Int, perPage : Int) = apiService.getGames(page = page,perPage = perPage)
+    fun getGames(page : Int, perPage : Int): Single<ListGameResponses> {
+        return apiService.getGames(page = page,perPage = perPage)
+    }
 
     fun getDeveloper(): Flowable<ApiResponse<List<GameDeveloperResponse>>> {
         val resultData = PublishSubject.create<ApiResponse<List<GameDeveloperResponse>>>()
@@ -35,7 +39,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     fun getGamesDetail(id : String) : Flowable<ApiResponse<GameDetailResponse>>{
         val resultData = PublishSubject.create<ApiResponse<GameDetailResponse>>()
 
-        val client = apiService.getGamesDetail(id)
+        val client = apiService.getGamesDetail(id=id)
 
         client.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -49,3 +53,4 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         return resultData.toFlowable(BackpressureStrategy.LATEST)
     }
 }
+

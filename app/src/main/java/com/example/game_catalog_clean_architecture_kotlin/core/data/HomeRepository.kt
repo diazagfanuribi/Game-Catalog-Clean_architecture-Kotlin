@@ -28,10 +28,9 @@ class HomeRepository @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
-                prefetchDistance = 10,
-                maxSize = 30,
-                enablePlaceholders = true,
-                initialLoadSize = 20
+                prefetchDistance =30,
+                maxSize = 100,
+                enablePlaceholders = false
             ),
             pagingSourceFactory = { GamesPagingSource(remoteDataSource) }
         ).flowable
@@ -41,10 +40,11 @@ class HomeRepository @Inject constructor(
         object : NetworkBoundResource<List<GameDeveloperModel>, List<GameDeveloperResponse>>() {
             override fun loadFromDB(): Flowable<List<GameDeveloperModel>> {
                 return localDataSource.getAllDeveloper()
-                    .map { Mapper.mapDeveloperEntitiesToDomains(it) }
+                    .map {
+                        Mapper.mapDeveloperEntitiesToDomains(it) }
             }
 
-            override fun shouldFetch(data: List<GameDeveloperModel>?): Boolean = false
+            override fun shouldFetch(data: List<GameDeveloperModel>?): Boolean = true
 
             override fun createCall(): Flowable<ApiResponse<List<GameDeveloperResponse>>> {
                 return remoteDataSource.getDeveloper()

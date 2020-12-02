@@ -38,6 +38,7 @@ class DeveloperAdapter : RecyclerView.Adapter<DeveloperAdapter.ListViewHolder>()
             with(binding) {
                 Glide.with(itemView.context)
                     .load(data.image_url)
+                    .error(R.drawable.ic_error)
                     .into(imageDeveloper)
                 textviewDeveloper.text = data.name
             }

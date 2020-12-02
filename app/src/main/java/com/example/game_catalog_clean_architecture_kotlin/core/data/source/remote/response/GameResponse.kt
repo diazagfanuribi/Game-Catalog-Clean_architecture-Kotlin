@@ -8,16 +8,16 @@ data class GameResponse(
         val id : Int,
 
         @field:SerializedName("name")
-        val name : String,
+        val name : String?,
 
         @field:SerializedName("released")
-        val release: String,
+        val release: String?,
 
         @field:SerializedName("rating")
-        val rating : Float,
+        val rating : Float?,
 
         @field:SerializedName("background_image")
-        val image_url : String,
+        val image_url : String?,
 
         val isFavorite : Boolean = false
 )

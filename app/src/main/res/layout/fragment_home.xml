@@ -5,17 +5,19 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".home.HomeFragment">
-
     <TextView
         android:id="@+id/textview_developer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Game's Developer"
-        android:textStyle="bold|italic"
-        android:textSize="20sp"
         android:padding="8dp"
+        android:visibility="visible"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        android:text="Game's Developer" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_developer"
@@ -70,16 +72,22 @@
         android:background="?android:attr/dividerVertical"
         app:layout_constraintTop_toBottomOf="@id/rv_developer"
         app:layout_constraintBottom_toTopOf="@id/textview_game"/>
+
     <TextView
         android:id="@+id/textview_game"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/rv_developer"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:text="Top Release"
-        android:textStyle="bold|italic"
+        android:padding="8dp"
+        android:visibility="visible"
         android:textSize="20sp"
-        android:padding="8dp"/>
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@id/game_separator"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dev_separator"
+        android:text="Top Release" />
+
     <View
         android:id="@+id/game_separator"
         android:layout_width="match_parent"
@@ -126,12 +134,12 @@
         android:id="@+id/rv_game"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview_game"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:listitem="@layout/item_game_list"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_game_list" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
