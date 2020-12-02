@@ -1,9 +1,13 @@
 package com.example.game_catalog_clean_architecture_kotlin.core.utils
 
+import com.example.game_catalog_clean_architecture_kotlin.core.data.source.local.entity.GameDeveloperEntity
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.local.entity.GameEntity
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.response.GameDetailResponse
+import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.response.GameDeveloperResponse
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.response.GameResponse
 import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.Game
+import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.GameDeveloperModel
+import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.GameList
 
 object Mapper {
     fun mapGameResponsesToEntities(input: List<GameDetailResponse>): List<GameEntity> {
@@ -57,4 +61,59 @@ object Mapper {
             genre = it.genre,
             isFavorite = it.isFavorite
     )
+
+    fun mapResponsesToDomainsGameList(input : List<GameResponse>): List<GameList>{
+        val gameLists = ArrayList<GameList>()
+        input.map {
+            val gameList = GameList(
+                id = it.id,
+                name = it.name,
+                release = it.release,
+                rating = it.rating,
+                image_url = it.image_url,
+                isFavorite = it.isFavorite
+            )
+            gameLists.add(gameList)
+        }
+        return gameLists
+    }
+
+    fun mapDeveloperEntitiesToDomains(input : List<GameDeveloperEntity>): List<GameDeveloperModel>{
+        val gameDeveloper = ArrayList<GameDeveloperModel>()
+        input.map {
+            val gameList = GameDeveloperModel(
+                id = it.id,
+                name = it.name,
+                image_url = it.image_url
+            )
+            gameDeveloper.add(gameList)
+        }
+        return gameDeveloper
+    }
+
+    fun mapDeveloperDomainsToEntities(input : List<GameDeveloperModel>): List<GameDeveloperEntity>{
+        val gameDeveloper = ArrayList<GameDeveloperEntity>()
+        input.map {
+            val gameList = GameDeveloperEntity(
+                id = it.id,
+                name = it.name,
+                image_url = it.image_url
+            )
+            gameDeveloper.add(gameList)
+        }
+        return gameDeveloper
+    }
+
+    fun mapDeveloperResponseToEntities(input : List<GameDeveloperResponse>): List<GameDeveloperEntity>{
+        val gameDeveloper = ArrayList<GameDeveloperEntity>()
+        input.map {
+            val gameList = GameDeveloperEntity(
+                id = it.id,
+                name = it.name,
+                image_url = it.image_url
+            )
+            gameDeveloper.add(gameList)
+        }
+        return gameDeveloper
+    }
 }

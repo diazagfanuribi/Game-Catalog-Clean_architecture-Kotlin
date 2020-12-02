@@ -1,20 +1,23 @@
 package com.example.game_catalog_clean_architecture_kotlin.core.domain.model
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Game (
         var pk: Int,
-        val name : String,
-        val release: String,
-        val rating : Float,
-        val image_url : String,
-        val description : String,
-        val image_url_additional: String,
-        val website : String,
-        val dominant_color : String,
-        val genre : String,
-        val isFavorite : Boolean = false
-)
+        var name : String,
+        var release: String,
+        var rating : Float,
+        var image_url : String,
+        var description : String,
+        var image_url_additional: String,
+        var website : String,
+        var dominant_color : String,
+        var genre : String,
+        var isFavorite : Boolean = false
+): Parcelable

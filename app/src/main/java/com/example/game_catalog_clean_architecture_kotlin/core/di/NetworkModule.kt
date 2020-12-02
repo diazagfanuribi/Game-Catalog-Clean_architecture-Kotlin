@@ -1,4 +1,5 @@
 package com.example.game_catalog_clean_architecture_kotlin.core.di
+
 import com.example.game_catalog_clean_architecture_kotlin.core.data.source.remote.network.ApiService
 import dagger.Module
 import dagger.Provides
@@ -8,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+
 
 @Module
 class NetworkModule {
@@ -24,9 +26,8 @@ class NetworkModule {
     @Provides
     fun provideApiService(client: OkHttpClient): ApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.rawg.io/api/")
+            .baseUrl("https://tourism-api.dicoding.dev/")
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(client)
             .build()
         return retrofit.create(ApiService::class.java)

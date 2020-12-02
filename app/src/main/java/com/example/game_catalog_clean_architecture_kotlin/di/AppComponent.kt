@@ -1,9 +1,9 @@
-package com.example.game_catalog_clean_architecture_kotlin.di
-
+package com.dicoding.game_catalog_clean_architecture_kotlin.di
 
 import com.example.game_catalog_clean_architecture_kotlin.core.di.CoreComponent
 import com.example.game_catalog_clean_architecture_kotlin.home.HomeFragment
 import dagger.Component
+
 
 @AppScope
 @Component(
@@ -17,4 +17,5 @@ interface AppComponent {
     }
 
     fun inject(fragment: HomeFragment)
+
 }

@@ -1,4 +1,4 @@
-package com.example.game_catalog_clean_architecture_kotlin.di
+package com.dicoding.game_catalog_clean_architecture_kotlin.di
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

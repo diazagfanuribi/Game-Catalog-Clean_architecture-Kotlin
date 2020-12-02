@@ -22,11 +22,54 @@
         android:layout_width="match_parent"
         android:layout_height="225dp"
         android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview_developer"
-        tools:listitem="@layout/item_developer_card"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_developer_card"
+        app:layout_constraintBottom_toTopOf="@id/textview_game"
         />
+    <ProgressBar
+        android:id="@+id/progress_bar_dev"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_developer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/dev_separator"/>
+
+    <LinearLayout
+        android:id="@+id/dev_caution_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_developer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/dev_separator">
+        <TextView
+            android:id="@+id/dev_caution_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="404 Error Occured"/>
+        <Button
+            android:id="@+id/dev_caution_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="retry"/>
+    </LinearLayout>
+    <View
+        android:id="@+id/dev_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/dividerVertical"
+        app:layout_constraintTop_toBottomOf="@id/rv_developer"
+        app:layout_constraintBottom_toTopOf="@id/textview_game"/>
     <TextView
         android:id="@+id/textview_game"
         android:layout_width="wrap_content"
@@ -37,7 +80,50 @@
         android:textStyle="bold|italic"
         android:textSize="20sp"
         android:padding="8dp"/>
+    <View
+        android:id="@+id/game_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/dividerVertical"
+        app:layout_constraintTop_toBottomOf="@id/textview_game"
+        app:layout_constraintBottom_toTopOf="@id/rv_game"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_game"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/game_separator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <LinearLayout
+        android:id="@+id/game_caution_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/game_separator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/game_caution_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="404 Error Occured"/>
+        <Button
+            android:id="@+id/game_caution_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="retry"/>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_game"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/textview_game"
