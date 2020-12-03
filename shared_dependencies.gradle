@@ -1,49 +1,4 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-android-extensions'
-    id "androidx.navigation.safeargs.kotlin"
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
-
-}
-apply from: '../shared_dependencies.gradle'
-
-android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.1"
-
-    defaultConfig {
-        applicationId "com.example.game_catalog_clean_architecture_kotlin"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-    buildFeatures {
-        viewBinding = true
-    }
-    dynamicFeatures = [':favorite']
-}
-
 dependencies {
-    implementation project(":core")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
@@ -59,26 +14,11 @@ dependencies {
 
     implementation "com.google.android.material:material:$material_design"
 
-    //retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-
-    //okhttp
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
-
-    //room persistence library
-
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:$room_version"
-    // optional - Test helpers
-    testImplementation "androidx.room:room-testing:$room_version"
-
 //    def arch_version = "2.1.0"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     // optional - helpers for implementing LifecycleOwner in a Service
@@ -86,7 +26,7 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
 
     implementation "com.google.dagger:dagger:$dagger_version"
@@ -112,9 +52,4 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_jetpack_version"
     kapt "androidx.hilt:hilt-compiler:$hilt_jetpack_version"
     kaptAndroidTest "androidx.hilt:hilt-compiler:$hilt_jetpack_version"
-}
-
-
-kapt {
-    correctErrorTypes true
 }

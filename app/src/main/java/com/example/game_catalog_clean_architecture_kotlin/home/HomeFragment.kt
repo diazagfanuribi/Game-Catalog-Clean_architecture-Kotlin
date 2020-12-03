@@ -18,11 +18,10 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.game_catalog_clean_architecture_kotlin.MyApplication
 import com.example.game_catalog_clean_architecture_kotlin.R
-import com.example.game_catalog_clean_architecture_kotlin.core.data.Resource
-import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.GameList
-import com.example.game_catalog_clean_architecture_kotlin.core.ui.DeveloperAdapter
-import com.example.game_catalog_clean_architecture_kotlin.core.ui.GameAdapter
-import com.example.game_catalog_clean_architecture_kotlin.core.ui.ViewModelFactory
+import com.example.core.data.Resource
+import com.example.core.domain.model.GameList
+import com.example.core.ui.DeveloperAdapter
+import com.example.core.ui.GameAdapter
 import com.example.game_catalog_clean_architecture_kotlin.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
