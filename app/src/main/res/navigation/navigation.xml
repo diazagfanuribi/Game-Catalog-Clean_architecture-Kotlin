@@ -17,5 +17,9 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.game_catalog_clean_architecture_kotlin.detail.DetailFragment"
-        android:label="DetailFragment" />
+        android:label="DetailFragment" >
+        <argument
+            android:name="game"
+            app:argType="com.example.core.domain.model.GameList" />
+    </fragment>
 </navigation>

@@ -18,11 +18,10 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.game_catalog_clean_architecture_kotlin.MyApplication
 import com.example.game_catalog_clean_architecture_kotlin.R
-import com.example.game_catalog_clean_architecture_kotlin.core.data.Resource
-import com.example.game_catalog_clean_architecture_kotlin.core.domain.model.GameList
-import com.example.game_catalog_clean_architecture_kotlin.core.ui.DeveloperAdapter
-import com.example.game_catalog_clean_architecture_kotlin.core.ui.GameAdapter
-import com.example.game_catalog_clean_architecture_kotlin.core.ui.ViewModelFactory
+import com.example.core.data.Resource
+import com.example.core.domain.model.GameList
+import com.example.core.ui.DeveloperAdapter
+import com.example.core.ui.GameAdapter
 import com.example.game_catalog_clean_architecture_kotlin.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -90,7 +89,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
 
         with(binding) {
             rvGame.layoutManager = LinearLayoutManager(context)
-            rvGame.setHasFixedSize(false)
+            rvGame.setHasFixedSize(true)
             rvGame.adapter = gameAdapter
 //            adapter = gameAdapter.withLoadStateFooter(
 //                footer =
@@ -123,7 +122,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
     }
 
     override fun onItemClick(game: GameList) {
-        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(game)
         findNavController().navigate(action)
     }
 
