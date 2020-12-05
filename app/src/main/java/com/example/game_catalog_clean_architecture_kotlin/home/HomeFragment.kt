@@ -89,7 +89,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
 
         with(binding) {
             rvGame.layoutManager = LinearLayoutManager(context)
-            rvGame.setHasFixedSize(false)
+            rvGame.setHasFixedSize(true)
             rvGame.adapter = gameAdapter
 //            adapter = gameAdapter.withLoadStateFooter(
 //                footer =
@@ -122,7 +122,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
     }
 
     override fun onItemClick(game: GameList) {
-        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment()
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(game)
         findNavController().navigate(action)
     }
 

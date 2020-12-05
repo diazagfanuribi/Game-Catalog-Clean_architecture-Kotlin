@@ -20,4 +20,9 @@ class LocalDataSource @Inject constructor(
 
     fun updateFavorite(gameEntity: GameEntity) = gameDao.updateFavorite(gameEntity)
 
+    fun addGame(gameEntity: GameEntity) = gameDao.addGame(gameEntity)
+
+    fun getGameById(id : Int): Flowable<GameEntity> {
+        return gameDao.getGameById(id = id)
+    }
 }

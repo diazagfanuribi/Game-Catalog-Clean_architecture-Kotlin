@@ -15,20 +15,38 @@ object Mapper {
         input.map {
             val game = GameEntity(
                     pk = it.id,
-                    name=it.name,
-                    release = it.release,
-                    rating = it.rating,
-                    image_url = it.image_url,
-                    description = it.description,
-                    image_url_additional = it.image_url_additional,
-                    website = it.website,
-                    dominant_color = it.dominant_color,
-                    genre = it.genres,
+                    name=it.name ?: "N/A",
+                    release = it.release ?: "N/A",
+                    rating = it.rating  ?: 0F,
+                    image_url = it.image_url  ?: "N/A",
+                    description = it.description  ?: "N/A",
+                    image_url_additional = it.image_url_additional  ?: "N/A",
+                    website = it.website  ?: "N/A",
+                    dominant_color = it.dominant_color  ?: "N/A",
+                    genre = it.genres  ?: "N/A",
                     isFavorite = it.isFavorite
             )
             gameList.add(game)
         }
         return gameList
+    }
+
+    fun mapGameResponseToEntity(it: GameDetailResponse): GameEntity {
+            val game = GameEntity(
+                pk = it.id,
+                name=it.name ?: "N/A",
+                release = it.release ?: "N/A",
+                rating = it.rating  ?: 0F,
+                image_url = it.image_url  ?: "N/A",
+                description = it.description  ?: "N/A",
+                image_url_additional = it.image_url_additional  ?: "N/A",
+                website = it.website  ?: "N/A",
+                dominant_color = it.dominant_color  ?: "N/A",
+                genre = it.genres  ?: "N/A",
+                isFavorite = it.isFavorite
+            )
+        return game
+
     }
 
     fun mapGameEntitiesToDomain(input: List<GameEntity>): List<Game> =
@@ -47,6 +65,21 @@ object Mapper {
                         isFavorite = it.isFavorite
                 )
             }
+
+    fun mapGameEntityToDomain(it: GameEntity): Game= Game(
+                pk = it.pk,
+                name=it.name,
+                release = it.release,
+                rating = it.rating,
+                image_url = it.image_url,
+                description = it.description,
+                image_url_additional = it.image_url_additional,
+                website = it.website,
+                dominant_color = it.dominant_color,
+                genre = it.genre,
+                isFavorite = it.isFavorite
+            )
+
 
     fun mapDomainToEntity(it: Game) = GameEntity(
             pk = it.pk,

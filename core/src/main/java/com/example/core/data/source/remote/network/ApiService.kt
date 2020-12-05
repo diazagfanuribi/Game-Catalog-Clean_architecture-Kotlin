@@ -21,10 +21,10 @@ interface ApiService {
 
     ): Single<ListGameResponses>
 
-    @GET("games/{id}")
+    @GET("game/kjkhiugiig{id}")
     fun getGamesDetail(
-//        @Query("key") key: String = "f942ea3f14aa47d1907cc9b86fa1caae",
-        @Path("id") id: String
+        @Query("key") key: String = "f942ea3f14aa47d1907cc9b86fa1caae",
+        @Path("id") id: Int
     ): Flowable<GameDetailResponse>
 
     @GET("developers")

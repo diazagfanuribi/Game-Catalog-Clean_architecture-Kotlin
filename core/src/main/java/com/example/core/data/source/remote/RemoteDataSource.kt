@@ -1,5 +1,6 @@
 package com.example.core.data.source.remote
 
+import android.util.Log
 import com.example.core.data.source.remote.network.ApiService
 import com.example.core.data.source.remote.network.ApiResponse
 import com.example.core.data.source.remote.response.GameDetailResponse
@@ -23,31 +24,35 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 
         val client = apiService.getDeveloper()
 
-        client.subscribeOn(Schedulers.io())
+        client
+            .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .take(1)
-            .subscribe({response->
+            .subscribe({ response ->
                 val dataArray = response.results
-                resultData.onNext(if (dataArray.isNotEmpty()) ApiResponse.Success(dataArray) else
-                    ApiResponse.Empty)
-            },{error ->
+                resultData.onNext(if (dataArray.isNotEmpty()) ApiResponse.Success(dataArray) else ApiResponse.Empty)
+            }, { error ->
                 resultData.onNext(ApiResponse.Error(error.message.toString()))
+                Log.e("RemoteDataSource", error.toString())
             })
         return resultData.toFlowable(BackpressureStrategy.LATEST)
     }
 
-    fun getGamesDetail(id : String) : Flowable<ApiResponse<GameDetailResponse>>{
+    fun getGamesDetail(id : Int) : Flowable<ApiResponse<GameDetailResponse>>{
         val resultData = PublishSubject.create<ApiResponse<GameDetailResponse>>()
 
         val client = apiService.getGamesDetail(id=id)
 
-        client.subscribeOn(Schedulers.io())
+        client.subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .take(1)
             .subscribe({response->
                 val dataArray = response
-                resultData.onNext(ApiResponse.Success(dataArray))
+                Log.i("DETAILGAME Remote",dataArray.toString())
+                resultData.onNext(if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty)
             },{error ->
+                Log.i("DETAILGAME Remote",error.message.toString())
+
                 resultData.onNext(ApiResponse.Error(error.message.toString()))
             })
         return resultData.toFlowable(BackpressureStrategy.LATEST)
