@@ -67,6 +67,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                             .observeOn(AndroidSchedulers.mainThread())
                             .take(1)
                             .subscribe {
+                                Log.i("Aaaaa", it.toString())
                                 dbSource.unsubscribeOn(Schedulers.io())
                                 result.onNext(Resource.Success(it))
                             }

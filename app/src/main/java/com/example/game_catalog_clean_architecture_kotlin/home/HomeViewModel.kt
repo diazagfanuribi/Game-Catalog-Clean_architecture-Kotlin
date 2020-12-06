@@ -20,7 +20,9 @@ class HomeViewModel @ViewModelInject constructor(val homeUseCase: HomeUseCase) :
             }
         }
         .cachedIn(viewModelScope)
+    init {
 
+    }
     val developer: LiveData<Resource<List<GameDeveloperModel>>>
         get() = LiveDataReactiveStreams.fromPublisher(homeUseCase.getDeveloper())
 

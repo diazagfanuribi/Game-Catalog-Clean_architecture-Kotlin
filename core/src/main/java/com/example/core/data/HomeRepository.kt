@@ -1,5 +1,6 @@
 package com.example.core.data
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -42,7 +43,7 @@ class HomeRepository @Inject constructor(
             pagingSourceFactory = { GamesPagingSource(remoteDataSource) }
         ).flowable
     }
-
+    @SuppressLint("CheckResult")
     override fun getDeveloper(): Flowable<Resource<List<GameDeveloperModel>>> =
         object : NetworkBoundResource<List<GameDeveloperModel>, List<GameDeveloperResponse>>() {
             override fun loadFromDB(): Flowable<List<GameDeveloperModel>> {
@@ -53,7 +54,7 @@ class HomeRepository @Inject constructor(
                     }
             }
 
-            override fun shouldFetch(data: List<GameDeveloperModel>?): Boolean = true
+            override fun shouldFetch(data: List<GameDeveloperModel>?): Boolean =  (data.isNullOrEmpty())
 
             override fun createCall(): Flowable<ApiResponse<List<GameDeveloperResponse>>> {
                 Log.i("DETAILGAME retrofit dev", "cek")
@@ -65,12 +66,13 @@ class HomeRepository @Inject constructor(
                 val gameDeveloper = Mapper.mapDeveloperResponseToEntities(data)
 
                 localDataSource.addDeveloper(gameDeveloper)
-                    .subscribeOn(Schedulers.io())
+                    .subscribeOn(io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe()
             }
         }.asFlowable()
 
+    @SuppressLint("CheckResult")
     override fun getGameById(id: Int): Flowable<Resource<Game>> {
         Log.i("DETAILGAME retrofit", id.toString())
         return object : NetworkBoundResource<Game, GameDetailResponse>() {
@@ -81,20 +83,17 @@ class HomeRepository @Inject constructor(
                         Mapper.mapGameEntityToDomain(it) }
             }
 
-            override fun shouldFetch(data: Game?): Boolean = true
+            override fun shouldFetch(data: Game?): Boolean = (data == null)
 
             override fun createCall(): Flowable<ApiResponse<GameDetailResponse>> {
-                Log.i("DETAILGAME call", "cek")
 
                 return remoteDataSource.getGamesDetail(id)
             }
 
             override fun saveCallResult(data: GameDetailResponse, disposable: CompositeDisposable) {
-                Log.i("DETAILGAME retrofit", data.toString())
-
                 val gameDetail = Mapper.mapGameResponseToEntity(data)
                 val db = localDataSource.addGame(gameDetail)
-                db.subscribeOn(Schedulers.io())
+                db.subscribeOn(io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe()
 

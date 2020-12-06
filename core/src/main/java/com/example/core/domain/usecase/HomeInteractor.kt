@@ -29,7 +29,6 @@ class HomeInteractor @Inject constructor(private val repository: HomeRepository)
 
 
     override fun getGameById(id: Int): Flowable<Resource<Game>> {
-        Log.i("DETAILGAME retrofit", id.toString())
         return repository.getGameById(id)
     }
 }
