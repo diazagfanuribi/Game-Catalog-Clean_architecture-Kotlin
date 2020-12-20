@@ -57,8 +57,7 @@ class HomeRepository @Inject constructor(
             override fun shouldFetch(data: List<GameDeveloperModel>?): Boolean =  (data.isNullOrEmpty())
 
             override fun createCall(): Flowable<ApiResponse<List<GameDeveloperResponse>>> {
-                Log.i("DETAILGAME retrofit dev", "cek")
-
+                Log.d("Fetch", "fetch from network developer")
                 return remoteDataSource.getDeveloper()
             }
 
@@ -74,19 +73,22 @@ class HomeRepository @Inject constructor(
 
     @SuppressLint("CheckResult")
     override fun getGameById(id: Int): Flowable<Resource<Game>> {
-        Log.i("DETAILGAME retrofit", id.toString())
+        Log.d("Fetch", "fetch from network before")
+        Log.d("Fetch", "fetch from network with id ${id.toString()}")
+
         return object : NetworkBoundResource<Game, GameDetailResponse>() {
 
             override fun loadFromDB(): Flowable<Game> {
+                Log.d("Fetch", "fetch from network game db")
                 return localDataSource.getGameById(id)
                     .map {
-                        Mapper.mapGameEntityToDomain(it) }
+                        Mapper.mapGameEntityToDomain(it.get(0)) }
             }
 
             override fun shouldFetch(data: Game?): Boolean = (data == null)
 
             override fun createCall(): Flowable<ApiResponse<GameDetailResponse>> {
-
+                Log.d("Fetch", "fetch from network game")
                 return remoteDataSource.getGamesDetail(id)
             }
 

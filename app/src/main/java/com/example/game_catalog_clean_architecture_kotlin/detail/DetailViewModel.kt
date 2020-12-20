@@ -23,22 +23,25 @@ class DetailViewModel @ViewModelInject constructor(
     private val _gameDetail = MutableLiveData<Resource<Game>>()
 
     val gameDetail: LiveData<Resource<Game>>
-        get() = LiveDataReactiveStreams.fromPublisher(homeUseCase.getGameById(args.game.id))
-//    init {
-//        mDisposable.add(
-//            homeUseCase.getGameById(args.game.id)
-//            .subscribeOn(Schedulers.computation())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe{
-//             _gameDetail.postValue(it)
-//         })
-//
-//    }
+        get() = _gameDetail
+    
+    init {
+        mDisposable.add(
+            homeUseCase.getGameById(args.game.id)
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe{
+             _gameDetail.postValue(it)
+         })
+
+    }
 
     fun updateFavorite(game: Game, isFavorite: Boolean) =
         mDisposable.add(
             homeUseCase.setFavorite(game, isFavorite)
                 .subscribeOn(Schedulers.io())
+                .doOnError { Log.d("Favorite error", it.message.toString()) }
+
                 .subscribe()
         )
 

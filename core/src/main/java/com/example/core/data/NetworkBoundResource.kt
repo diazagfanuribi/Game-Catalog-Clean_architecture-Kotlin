@@ -21,15 +21,19 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
         val db = dbSource
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .take(1)
-            .subscribe { value ->
+            .subscribe ({ value ->
                 dbSource.unsubscribeOn(Schedulers.io())
+                Log.i("Fetch", shouldFetch(value).toString())
                 if (shouldFetch(value)) {
                     fetchFromNetwork()
                 } else {
                     result.onNext(Resource.Success(value))
                 }
-            }
+            },
+                { errors ->
+                    Log.i("Fetch error", errors.message.toString())
+                    fetchFromNetwork()})
+
         mCompositeDisposable.add(db)
     }
 
@@ -46,15 +50,13 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     protected abstract fun saveCallResult(data: RequestType, disposable: CompositeDisposable =mCompositeDisposable)
 
     private fun fetchFromNetwork() {
-
         val apiResponse = createCall()
-        Log.i("Loading","loading network")
         result.onNext(Resource.Loading(null))
-        Log.i("Loading","loading")
         val response = apiResponse
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .take(1)
+            .doOnEach { Log.i("Fetch from network", it.toString()) }
             .doOnComplete {
                 mCompositeDisposable.dispose()
             }
@@ -67,7 +69,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                             .observeOn(AndroidSchedulers.mainThread())
                             .take(1)
                             .subscribe {
-                                Log.i("Aaaaa", it.toString())
+                                Log.i("Fetch", it.toString())
                                 dbSource.unsubscribeOn(Schedulers.io())
                                 result.onNext(Resource.Success(it))
                             }
@@ -95,5 +97,5 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     fun asFlowable(): Flowable<Resource<ResultType>> =
-        result.toFlowable(BackpressureStrategy.BUFFER)
+        result.toFlowable(BackpressureStrategy.LATEST)
 }

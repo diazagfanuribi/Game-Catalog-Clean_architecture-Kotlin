@@ -42,16 +42,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailBinding.bind(view)
-        val gameList = args.game
-        initUIArgs(gameList)
         viewModel.gameDetail.observe(viewLifecycleOwner){ detail ->
             if (detail != null) {
                 when (detail) {
                     is Resource.Loading ->{
-                        Log.i("Loading","loading Detail")
                         binding.progressBar.visibility = View.VISIBLE}
                     is Resource.Success -> {
-                        Log.d("Loading detail", detail.data.toString())
+                        Log.d("Favorite detail", detail.data?.isFavorite.toString())
                         binding.progressBar.visibility = View.GONE
                         detail.data?.let { initUI(it) }
 
@@ -89,7 +86,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             ratingBarGame.rating = data.rating
             setStatusFavorite(data.isFavorite)
             fab.setOnClickListener {
+                Log.i("Favorite", data.isFavorite.toString())
                 viewModel.updateFavorite(data,!data.isFavorite)
+                setStatusFavorite(data.isFavorite)
             }
         }
     }

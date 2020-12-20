@@ -21,7 +21,7 @@ interface ApiService {
 
     ): Single<ListGameResponses>
 
-    @GET("game/kjkhiugiig{id}")
+    @GET("games/{id}")
     fun getGamesDetail(
         @Path("id") id: Int
     ): Flowable<GameDetailResponse>
