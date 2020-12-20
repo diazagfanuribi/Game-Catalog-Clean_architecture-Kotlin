@@ -22,6 +22,6 @@ interface GameDao {
     @Query("SElECT * FROM game")
     fun getGame(): Flowable<GameEntity>
 
-    @Query("SElECT * FROM game WHERE pk = :id")
-    fun getGameById(id: Int): Flowable<GameEntity>
+    @Query("SElECT * FROM game WHERE pk = :id LIMIT 1")
+    fun getGameById(id: Int): Flowable<List<GameEntity>>
 }

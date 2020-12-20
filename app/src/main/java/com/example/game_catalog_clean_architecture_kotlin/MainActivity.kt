@@ -1,7 +1,13 @@
 package com.example.game_catalog_clean_architecture_kotlin
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -33,5 +39,25 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.search_menu ->{
+                Toast.makeText(this, "click on setting", Toast.LENGTH_LONG).show()
+                true
+            }
+            R.id.favorite_menu ->{
+                val uri = Uri.parse("gamecatalog://favorite")
+                startActivity(Intent(Intent.ACTION_VIEW, uri))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

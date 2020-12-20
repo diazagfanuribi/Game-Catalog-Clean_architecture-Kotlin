@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.core.data.Resource
 import com.example.core.domain.model.Game
+import com.example.core.domain.model.GameList
 import com.example.game_catalog_clean_architecture_kotlin.R
 import com.example.game_catalog_clean_architecture_kotlin.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,17 +42,13 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailBinding.bind(view)
-
-        val game = args.game
-
         viewModel.gameDetail.observe(viewLifecycleOwner){ detail ->
             if (detail != null) {
                 when (detail) {
                     is Resource.Loading ->{
-                        Log.i("Loading","loading Detail")
                         binding.progressBar.visibility = View.VISIBLE}
                     is Resource.Success -> {
-                        Log.d("Loading detail", detail.data.toString())
+                        Log.d("Favorite detail", detail.data?.isFavorite.toString())
                         binding.progressBar.visibility = View.GONE
                         detail.data?.let { initUI(it) }
 
@@ -66,6 +63,18 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     }
 
+
+    fun initUIArgs(data : GameList){
+        with(binding){
+            Glide.with(this@DetailFragment)
+                .load(data.image_url)
+                .into(imageView)
+            textViewTitle.text = data.name
+            textviewRating.text = data.rating.toString()
+            ratingBarGame.rating = data.rating
+            setStatusFavorite(data.isFavorite)
+        }
+    }
     fun initUI(data : Game){
         with(binding){
             Glide.with(this@DetailFragment)
@@ -77,7 +86,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             ratingBarGame.rating = data.rating
             setStatusFavorite(data.isFavorite)
             fab.setOnClickListener {
+                Log.i("Favorite", data.isFavorite.toString())
                 viewModel.updateFavorite(data,!data.isFavorite)
+                setStatusFavorite(data.isFavorite)
             }
         }
     }

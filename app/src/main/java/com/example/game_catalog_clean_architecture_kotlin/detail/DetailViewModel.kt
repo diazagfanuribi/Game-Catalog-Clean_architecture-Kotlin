@@ -24,6 +24,7 @@ class DetailViewModel @ViewModelInject constructor(
 
     val gameDetail: LiveData<Resource<Game>>
         get() = _gameDetail
+    
     init {
         mDisposable.add(
             homeUseCase.getGameById(args.game.id)
@@ -39,6 +40,8 @@ class DetailViewModel @ViewModelInject constructor(
         mDisposable.add(
             homeUseCase.setFavorite(game, isFavorite)
                 .subscribeOn(Schedulers.io())
+                .doOnError { Log.d("Favorite error", it.message.toString()) }
+
                 .subscribe()
         )
 

@@ -33,7 +33,6 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
                 resultData.onNext(if (dataArray.isNotEmpty()) ApiResponse.Success(dataArray) else ApiResponse.Empty)
             }, { error ->
                 resultData.onNext(ApiResponse.Error(error.message.toString()))
-                Log.e("RemoteDataSource", error.toString())
             })
         return resultData.toFlowable(BackpressureStrategy.LATEST)
     }
@@ -48,11 +47,8 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
             .take(1)
             .subscribe({response->
                 val dataArray = response
-                Log.i("DETAILGAME Remote",dataArray.toString())
                 resultData.onNext(if (dataArray != null) ApiResponse.Success(dataArray) else ApiResponse.Empty)
             },{error ->
-                Log.i("DETAILGAME Remote",error.message.toString())
-
                 resultData.onNext(ApiResponse.Error(error.message.toString()))
             })
         return resultData.toFlowable(BackpressureStrategy.LATEST)

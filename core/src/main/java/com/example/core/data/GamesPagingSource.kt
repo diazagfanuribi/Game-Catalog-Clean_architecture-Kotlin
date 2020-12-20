@@ -18,18 +18,14 @@ class GamesPagingSource(val remoteDataSource: RemoteDataSource) : RxPagingSource
         return remoteDataSource.getGames(position, params.loadSize)
             .subscribeOn(Schedulers.io())
             .map {
-                Log.d("RAWG", it.toString())
                 Mapper.mapResponsesToDomainsGameList(it.results) }
             .map {
-                Log.d("RAWG", it.toString())
                 toLoadResult(it,position)
             }.onErrorReturn {
-                Log.d("RAWG", it.toString())
                 LoadResult.Error(it) }
 
     }
     private fun toLoadResult(data: List<GameList>, position: Int): LoadResult<Int, GameList> {
-        Log.d("RAWG", data.toString())
         return LoadResult.Page(
             data = data,
             prevKey = if (position == STARTING_PAGE) null else position - 1,
