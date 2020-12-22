@@ -1,10 +1,7 @@
 package com.example.game_catalog_clean_architecture_kotlin.home
 
-import android.app.AlertDialog
-import android.content.Context
-import android.content.Intent
+
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -16,29 +13,18 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.game_catalog_clean_architecture_kotlin.MyApplication
 import com.example.game_catalog_clean_architecture_kotlin.R
 import com.example.core.data.Resource
-import com.example.core.domain.model.GameList
 import com.example.core.ui.DeveloperAdapter
 import com.example.core.ui.GameAdapter
 import com.example.game_catalog_clean_architecture_kotlin.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_home.*
-import javax.inject.Inject
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickListener {
-    private val mDisposable = CompositeDisposable()
-
-//    @Inject
-//    lateinit var factory: ViewModelFactory
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val homeViewModel: HomeViewModel by viewModels()
-//    {
-//        factory
-//    }
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -50,11 +36,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
         developerAdapter = DeveloperAdapter()
-        gameAdapter = GameAdapter(this)
+        gameAdapter = GameAdapter()
+        gameAdapter.onItemClick = { game ->
+            val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(game)
+            findNavController().navigate(action)
+        }
+
 
         developerAdapter.onItemClick = { selectedData ->
             val snackBar = Snackbar.make(
-                view, "Replace with your own action",
+                view, "Coming soon",
                 Snackbar.LENGTH_LONG
             ).setAction("Action", null)
             snackBar.setActionTextColor(Color.BLUE)
@@ -89,41 +80,35 @@ class HomeFragment : Fragment(R.layout.fragment_home), GameAdapter.OnItemClickLi
 
         with(binding) {
             rvGame.layoutManager = LinearLayoutManager(context)
-            rvGame.setHasFixedSize(true)
+            rvGame.setHasFixedSize(false)
             rvGame.adapter = gameAdapter
-//            adapter = gameAdapter.withLoadStateFooter(
-//                footer =
-            game_caution_button.setOnClickListener {
-                gameAdapter.retry()
+        }
+        homeViewModel.gameList.observe(viewLifecycleOwner) { game ->
+            if (game != null) {
+                when (game) {
+                    is Resource.Loading -> binding.progressBarGame.visibility = View.VISIBLE
+                    is Resource.Success -> {
+                        binding.progressBarGame.visibility = View.GONE
+                        gameAdapter.setData(game.data)
+                    }
+                    is Resource.Error -> {
+                        binding.progressBarGame.visibility = View.GONE
+                        binding.gameCautionLayout.visibility = View.VISIBLE
+                        binding.gameCautionText.text = game.message
+                    }
+                }
             }
-
         }
 
-        gameAdapter.addLoadStateListener { loadState ->
 
-            binding.apply {
-                progressBarGame.isVisible = loadState.source.refresh is LoadState.Loading
-                rvGame.isVisible = loadState.source.refresh is LoadState.NotLoading
-                gameCautionLayout.isVisible = loadState.source.refresh is LoadState.Error
-            }
-        }
-
-        mDisposable.add(homeViewModel.getGames().subscribe {
-            gameAdapter.submitData(lifecycle, it)
-        })
 
 
     }
 
 
     override fun onDestroyView() {
-        mDisposable.dispose()
         super.onDestroyView()
-    }
-
-    override fun onItemClick(game: GameList) {
-        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(game)
-        findNavController().navigate(action)
+        _binding = null
     }
 
 }

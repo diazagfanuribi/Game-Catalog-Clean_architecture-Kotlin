@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.example.core.data.source.local.room.GameDao
 import com.example.core.data.source.local.room.GameDeveloperDao
 import com.example.core.data.source.local.room.GameRawgDatabase
+import com.example.core.data.source.local.room.GamelistDao
 
 import dagger.Module
 import dagger.Provides
@@ -28,4 +29,8 @@ class DatabaseModule {
 
     @Provides
     fun provideGameDeveloperDao(database: GameRawgDatabase): GameDeveloperDao = database.provideGameDeveloper()
+
+    @Provides
+    fun provideGameListDao(database: GameRawgDatabase): GamelistDao = database.provideGameList()
+
 }

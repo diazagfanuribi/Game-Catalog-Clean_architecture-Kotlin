@@ -13,16 +13,8 @@ import io.reactivex.Flowable
 import javax.inject.Inject
 
 class HomeViewModel @ViewModelInject constructor(val homeUseCase: HomeUseCase) : ViewModel() {
-    fun getGames(): Flowable<PagingData<GameList>> = homeUseCase.getGames()
-        .map { pagingData ->
-            pagingData.filter {
-                it.id != null
-            }
-        }
-        .cachedIn(viewModelScope)
-    init {
+    val gameList: LiveData<Resource<List<GameList>>> = LiveDataReactiveStreams.fromPublisher(homeUseCase.getGameList())
 
-    }
     val developer: LiveData<Resource<List<GameDeveloperModel>>>
         get() = LiveDataReactiveStreams.fromPublisher(homeUseCase.getDeveloper())
 

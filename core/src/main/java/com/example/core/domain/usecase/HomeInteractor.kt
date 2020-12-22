@@ -12,9 +12,6 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class HomeInteractor @Inject constructor(private val repository: HomeRepository) : HomeUseCase {
-    override fun getGames(): Flowable<PagingData<GameList>> {
-        return repository.getGames()
-    }
 
     override fun getDeveloper(): Flowable<Resource<List<GameDeveloperModel>>> {
         return repository.getDeveloper()
@@ -30,5 +27,9 @@ class HomeInteractor @Inject constructor(private val repository: HomeRepository)
 
     override fun getGameById(id: Int): Flowable<Resource<Game>> {
         return repository.getGameById(id)
+    }
+
+    override fun getGameList(): Flowable<Resource<List<GameList>>> {
+        return  repository.getGameList()
     }
 }

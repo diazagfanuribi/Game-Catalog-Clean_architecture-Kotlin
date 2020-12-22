@@ -24,14 +24,14 @@ class DetailViewModel @ViewModelInject constructor(
 
     val gameDetail: LiveData<Resource<Game>>
         get() = _gameDetail
-    
+
     init {
         mDisposable.add(
             homeUseCase.getGameById(args.game.id)
-            .subscribeOn(Schedulers.computation())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{
-             _gameDetail.postValue(it)
+                _gameDetail.postValue(it)
          })
 
     }
@@ -39,9 +39,12 @@ class DetailViewModel @ViewModelInject constructor(
     fun updateFavorite(game: Game, isFavorite: Boolean) =
         mDisposable.add(
             homeUseCase.setFavorite(game, isFavorite)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnError { Log.d("Favorite error", it.message.toString()) }
-
+                .doOnComplete {
+                    Log.d("Favorite done", "done")
+                }
                 .subscribe()
         )
 

@@ -14,12 +14,11 @@ interface ApiService {
 
     @GET("games")
     fun getGames(
-//        @Query("key") key: String = "f942ea3f14aa47d1907cc9b86fa1caae",
         @Query("ordering") ordering: String = "-rating",
         @Query("page") page: Int,
         @Query("per_page") perPage: Int
 
-    ): Single<ListGameResponses>
+    ): Flowable<ListGameResponses>
 
     @GET("games/{id}")
     fun getGamesDetail(
@@ -28,6 +27,5 @@ interface ApiService {
 
     @GET("developers")
     fun getDeveloper(
-//        @Query("key") key: String = "f942ea3f14aa47d1907cc9b86fa1caae"
     ): Flowable<ListGameDeveloperResponses>
 }

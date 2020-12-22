@@ -3,23 +3,19 @@ package com.example.core.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.R
 import com.example.core.databinding.ItemGameListBinding
 import com.example.core.domain.model.Game
-import com.example.core.domain.model.GameList
 import java.util.ArrayList
 
+class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.ListViewHolder>() {
 
-class GameAdapter : RecyclerView.Adapter<GameAdapter.ListViewHolder>() {
+    private var listData = ArrayList<Game>()
+    var onItemClick: ((Game) -> Unit)? = null
 
-    private var listData = ArrayList<GameList>()
-    var onItemClick: ((GameList) -> Unit)? = null
-
-    fun setData(newListData: List<GameList>?) {
+    fun setData(newListData: List<Game>?) {
         if (newListData == null) return
         listData.clear()
         listData.addAll(newListData)
@@ -38,7 +34,7 @@ class GameAdapter : RecyclerView.Adapter<GameAdapter.ListViewHolder>() {
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemGameListBinding.bind(itemView)
-        fun bind(data: GameList) {
+        fun bind(data: Game) {
             with(binding) {
                 Glide.with(itemView.context)
                     .load(data.image_url)
@@ -47,6 +43,7 @@ class GameAdapter : RecyclerView.Adapter<GameAdapter.ListViewHolder>() {
                 textviewRelease.text = data.release
                 textviewRating.text = data.rating.toString()
                 ratingBarGame.rating = data.rating
+
             }
         }
 
@@ -56,5 +53,4 @@ class GameAdapter : RecyclerView.Adapter<GameAdapter.ListViewHolder>() {
             }
         }
     }
-
 }

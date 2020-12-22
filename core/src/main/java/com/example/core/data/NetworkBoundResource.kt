@@ -23,15 +23,14 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({ value ->
                 dbSource.unsubscribeOn(Schedulers.io())
-                Log.i("Fetch", shouldFetch(value).toString())
+                Log.i("Fetch NetworkBound", shouldFetch(value).toString())
                 if (shouldFetch(value)) {
                     fetchFromNetwork()
                 } else {
                     result.onNext(Resource.Success(value))
                 }
-            },
-                { errors ->
-                    Log.i("Fetch error", errors.message.toString())
+            },{ errors ->
+                    Log.i("Fetch NetworkBound", errors.message.toString())
                     fetchFromNetwork()})
 
         mCompositeDisposable.add(db)
@@ -67,9 +66,8 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                         val dbSource = loadFromDB()
                         dbSource.subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .take(1)
                             .subscribe {
-                                Log.i("Fetch", it.toString())
+                                Log.i("Fetch NetworkBound", it.toString())
                                 dbSource.unsubscribeOn(Schedulers.io())
                                 result.onNext(Resource.Success(it))
                             }
@@ -78,7 +76,6 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                         val dbSource = loadFromDB()
                         dbSource.subscribeOn(Schedulers.computation())
                             .observeOn(AndroidSchedulers.mainThread())
-                            .take(1)
                             .subscribe {
                                 dbSource.unsubscribeOn(Schedulers.io())
                                 result.onNext(Resource.Success(it))
@@ -91,8 +88,6 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                     }
                 }
             }
-        Log.i("Loading","loading Detail")
-
         mCompositeDisposable.add(response)
     }
 

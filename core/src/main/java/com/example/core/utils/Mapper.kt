@@ -2,6 +2,7 @@ package com.example.core.utils
 
 import com.example.core.data.source.local.entity.GameDeveloperEntity
 import com.example.core.data.source.local.entity.GameEntity
+import com.example.core.data.source.local.entity.GameListEntity
 import com.example.core.data.source.remote.response.GameDetailResponse
 import com.example.core.data.source.remote.response.GameDeveloperResponse
 import com.example.core.data.source.remote.response.GameResponse
@@ -95,10 +96,41 @@ object Mapper {
             isFavorite = it.isFavorite
     )
 
-    fun mapResponsesToDomainsGameList(input : List<GameResponse>): List<GameList>{
+    fun mapResponsesToDomainGameList(input : List<GameResponse>): List<GameList>{
         val gameLists = ArrayList<GameList>()
         input.map {
             val gameList = GameList(
+                id = it.id,
+                name = it.name ?: "Unknown",
+                release = it.release ?: "-",
+                rating = it.rating ?: 0F,
+                image_url = it.image_url ?: "",
+                isFavorite = it.isFavorite
+            )
+            gameLists.add(gameList)
+        }
+        return gameLists
+    }
+
+    fun mapEntityToDomainGameList(input : List<GameListEntity>): List<GameList>{
+        val gameLists = ArrayList<GameList>()
+        input.map {
+            val gameList = GameList(
+                id = it.id,
+                name = it.name ,
+                release = it.release ,
+                rating = it.rating ,
+                image_url = it.image_url ,
+                isFavorite = it.isFavorite
+            )
+            gameLists.add(gameList)
+        }
+        return gameLists
+    }
+    fun mapResponsesToEntityGameList(input : List<GameResponse>): List<GameListEntity>{
+        val gameLists = ArrayList<GameListEntity>()
+        input.map {
+            val gameList = GameListEntity(
                 id = it.id,
                 name = it.name ?: "Unknown",
                 release = it.release ?: "-",

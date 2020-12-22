@@ -16,6 +16,6 @@ import dagger.hilt.android.components.FragmentComponent
 @InstallIn(ActivityComponent::class)
 class FavoriteModule {
     @Provides
-    fun providePostListViewModelFlow(fragment: Fragment, factory: ViewModelFactory) =
+    fun provideFavoriteViewModel(fragment: Fragment, factory: ViewModelFactory) =
         ViewModelProvider(fragment, factory).get(FavoriteViewModel::class.java)
 }
