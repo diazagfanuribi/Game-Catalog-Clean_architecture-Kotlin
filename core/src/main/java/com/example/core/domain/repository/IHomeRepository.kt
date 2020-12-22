@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface IHomeRepository {
 
-    fun getGames() : Flowable<PagingData<GameList>>
-
     fun getDeveloper() : Flowable<Resource<List<GameDeveloperModel>>>
 
     fun getFavorite(): Flowable<List<Game>>
@@ -20,4 +18,7 @@ interface IHomeRepository {
     fun setFavorite(game: Game, state: Boolean): Completable
 
     fun getGameById(id: Int): Flowable<Resource<Game>>
+
+    fun getGameList(): Flowable<Resource<List<GameList>>>
+
 }

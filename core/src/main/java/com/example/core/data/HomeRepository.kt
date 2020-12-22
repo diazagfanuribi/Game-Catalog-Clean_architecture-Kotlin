@@ -13,6 +13,7 @@ import com.example.core.data.source.remote.network.ApiResponse
 import com.example.core.data.source.remote.response.GameDetailResponse
 import com.example.core.data.source.remote.response.GameDeveloperResponse
 import com.example.core.data.source.remote.response.GameResponse
+import com.example.core.data.source.remote.response.ListGameResponses
 import com.example.core.domain.model.Game
 import com.example.core.domain.model.GameDeveloperModel
 import com.example.core.domain.model.GameList
@@ -27,29 +28,42 @@ import io.reactivex.schedulers.Schedulers.io
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
-
+@Singleton
 class HomeRepository @Inject constructor(
     val remoteDataSource: RemoteDataSource,
     val localDataSource: LocalDataSource
 ) : IHomeRepository {
-    override fun getGames(): Flowable<PagingData<GameList>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 10,
-                prefetchDistance = 30,
-                maxSize = 100,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { GamesPagingSource(remoteDataSource) }
-        ).flowable
+
+    override fun getGameList(): Flowable<Resource<List<GameList>>> {
+        return object : NetworkBoundResource<List<GameList>, List<GameResponse>>() {
+            override fun loadFromDB(): Flowable<List<GameList>> {
+                return localDataSource.getGameList()
+                    .map { Mapper.mapEntityToDomainGameList(it) }
+            }
+
+            override fun shouldFetch(data: List<GameList>?): Boolean = true
+
+            override fun createCall(): Flowable<ApiResponse<List<GameResponse>>> {
+                return remoteDataSource.getGames(page = 1,perPage = 10)
+            }
+
+            override fun saveCallResult(data: List<GameResponse>, disposable: CompositeDisposable) {
+                val gameDetail = Mapper.mapResponsesToEntityGameList(data)
+                val db = localDataSource.addGameList(gameDetail)
+                db.subscribeOn(io())
+                    .observeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
+            }
+        }.asFlowable()
     }
+
     @SuppressLint("CheckResult")
     override fun getDeveloper(): Flowable<Resource<List<GameDeveloperModel>>> =
         object : NetworkBoundResource<List<GameDeveloperModel>, List<GameDeveloperResponse>>() {
             override fun loadFromDB(): Flowable<List<GameDeveloperModel>> {
                 return localDataSource.getAllDeveloper()
                     .map {
-
                         Mapper.mapDeveloperEntitiesToDomains(it)
                     }
             }
@@ -57,7 +71,6 @@ class HomeRepository @Inject constructor(
             override fun shouldFetch(data: List<GameDeveloperModel>?): Boolean =  (data.isNullOrEmpty())
 
             override fun createCall(): Flowable<ApiResponse<List<GameDeveloperResponse>>> {
-                Log.d("Fetch", "fetch from network developer")
                 return remoteDataSource.getDeveloper()
             }
 
@@ -73,22 +86,18 @@ class HomeRepository @Inject constructor(
 
     @SuppressLint("CheckResult")
     override fun getGameById(id: Int): Flowable<Resource<Game>> {
-        Log.d("Fetch", "fetch from network before")
-        Log.d("Fetch", "fetch from network with id ${id.toString()}")
 
         return object : NetworkBoundResource<Game, GameDetailResponse>() {
 
             override fun loadFromDB(): Flowable<Game> {
-                Log.d("Fetch", "fetch from network game db")
                 return localDataSource.getGameById(id)
                     .map {
-                        Mapper.mapGameEntityToDomain(it.get(0)) }
+                        if(it.isNullOrEmpty()) null else Mapper.mapGameEntityToDomain(it.get(0)) }
             }
 
             override fun shouldFetch(data: Game?): Boolean = (data == null)
 
             override fun createCall(): Flowable<ApiResponse<GameDetailResponse>> {
-                Log.d("Fetch", "fetch from network game")
                 return remoteDataSource.getGamesDetail(id)
             }
 
@@ -102,10 +111,9 @@ class HomeRepository @Inject constructor(
             }
         }.asFlowable()
     }
+
     override fun getFavorite(): Flowable<List<Game>> {
-        return localDataSource.getFavorite().map {
-            Mapper.mapGameEntitiesToDomain(it)
-        }
+        return localDataSource.getFavorite().map { Mapper.mapGameEntitiesToDomain(it) }
     }
 
     override fun setFavorite(game: Game, state: Boolean): Completable {

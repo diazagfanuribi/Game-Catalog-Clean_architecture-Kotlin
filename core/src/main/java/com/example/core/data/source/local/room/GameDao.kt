@@ -4,6 +4,7 @@ import androidx.room.*
 import com.example.core.data.source.local.entity.GameEntity
 import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface GameDao {
@@ -16,8 +17,11 @@ interface GameDao {
     @Update
     fun updateFavorite(game: GameEntity): Completable
 
-    @Query("SElECT * FROM game WHERE isFavorite = 1")
+    @Query("SElECT * FROM game" + " WHERE isFavorite=1")
     fun getFavorites(): Flowable<List<GameEntity>>
+
+    @Query("SELECT COUNT(*) FROM game WHERE isFavorite =1")
+    fun countFavorite(): Single<Int>
 
     @Query("SElECT * FROM game")
     fun getGame(): Flowable<GameEntity>

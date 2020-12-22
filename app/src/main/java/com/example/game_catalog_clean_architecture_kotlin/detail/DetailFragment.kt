@@ -48,7 +48,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     is Resource.Loading ->{
                         binding.progressBar.visibility = View.VISIBLE}
                     is Resource.Success -> {
-                        Log.d("Favorite detail", detail.data?.isFavorite.toString())
                         binding.progressBar.visibility = View.GONE
                         detail.data?.let { initUI(it) }
 
@@ -80,15 +79,16 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             Glide.with(this@DetailFragment)
                 .load(data.image_url)
                 .into(imageView)
-            textViewDescription.text = data.name
+            textViewTitle.text = data.name
+            textViewDescription.text = data.description
             textViewCreator.text = data.website
             textviewRating.text = data.rating.toString()
             ratingBarGame.rating = data.rating
             setStatusFavorite(data.isFavorite)
             fab.setOnClickListener {
-                Log.i("Favorite", data.isFavorite.toString())
                 viewModel.updateFavorite(data,!data.isFavorite)
-                setStatusFavorite(data.isFavorite)
+                setStatusFavorite(!data.isFavorite)
+
             }
         }
     }

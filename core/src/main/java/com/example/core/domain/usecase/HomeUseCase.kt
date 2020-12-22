@@ -9,8 +9,6 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 
 interface HomeUseCase {
-    fun getGames() : Flowable<PagingData<GameList>>
-
     fun getDeveloper() : Flowable<Resource<List<GameDeveloperModel>>>
 
     fun getFavorite(): Flowable<List<Game>>
@@ -18,5 +16,7 @@ interface HomeUseCase {
     fun setFavorite(game: Game, state: Boolean): Completable
 
     fun getGameById(id: Int): Flowable<Resource<Game>>
+
+    fun getGameList(): Flowable<Resource<List<GameList>>>
 
 }

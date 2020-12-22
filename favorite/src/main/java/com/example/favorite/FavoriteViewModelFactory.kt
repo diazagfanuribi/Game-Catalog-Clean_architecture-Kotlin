@@ -7,18 +7,18 @@ import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 
-class ViewModelFactory @Inject constructor(
+class FavoriteViewModelFactory @Inject constructor(
     private val repository: HomeRepository
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
-        if (modelClass != ViewModelFactory::class.java) {
+        if (modelClass != FavoriteViewModel::class.java) {
             throw IllegalArgumentException("Unknown ViewModel class")
         }
 
-        return ViewModelFactory(
+        return FavoriteViewModel(
             repository
         ) as T
     }
