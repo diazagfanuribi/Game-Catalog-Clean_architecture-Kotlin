@@ -14,13 +14,19 @@
     </dist:module>
 
     <application>
-        <activity android:name=".FavoriteActivity"
+        <activity android:name=".detail.DetailFavoritActivity"
+            android:theme="@style/Theme.GameCatalogClean_architectureKotlin.NoActionBar"></activity>
+        <activity
+            android:name=".FavoriteActivity"
             android:theme="@style/Theme.GameCatalogClean_architectureKotlin.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="gamecatalog"
-                    android:host="favorite"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="favorite"
+                    android:scheme="gamecatalog" />
             </intent-filter>
         </activity>
     </application>

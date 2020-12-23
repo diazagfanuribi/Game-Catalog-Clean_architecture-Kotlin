@@ -59,9 +59,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                         }else{
                             binding.gameCautionLayout.visibility = View.VISIBLE
                             binding.gameCautionText.text = "Empty detail. Please Retry"
-                            binding.gameCautionButton.setOnClickListener {
-                                viewModel.getGameDetail()
-                            }
 
                         }
 
@@ -76,6 +73,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                     }
                 }
             }
+        }
+
+        binding.gameCautionButton.setOnClickListener {
+            viewModel.getGameDetail()
         }
 
 
@@ -107,7 +108,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             fab.setOnClickListener {
                 viewModel.updateFavorite(data,!data.isFavorite)
                 setStatusFavorite(!data.isFavorite)
-
             }
         }
     }

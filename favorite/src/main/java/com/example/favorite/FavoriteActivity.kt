@@ -1,5 +1,6 @@
 package com.example.favorite
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -9,6 +10,7 @@ import com.example.favorite.di.DaggerFragmentComponent
 import com.example.core.di.CoreDependency
 import com.example.core.ui.FavoriteAdapter
 import com.example.favorite.databinding.ActivityFavoriteBinding
+import com.example.favorite.detail.DetailFavoritActivity
 import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
@@ -24,7 +26,6 @@ class FavoriteActivity : AppCompatActivity() {
         factory
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         initCoreInjection()
         super.onCreate(savedInstanceState)
@@ -32,6 +33,12 @@ class FavoriteActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         favoriteAdapter = FavoriteAdapter()
+
+        favoriteAdapter.onItemClick = { selectedData ->
+            val intent = Intent(this, DetailFavoritActivity::class.java)
+            intent.putExtra(DetailFavoritActivity.EXTRA_DATA, selectedData)
+            startActivity(intent)
+        }
 
         with(binding) {
             rvFavorite.layoutManager = LinearLayoutManager(applicationContext)
