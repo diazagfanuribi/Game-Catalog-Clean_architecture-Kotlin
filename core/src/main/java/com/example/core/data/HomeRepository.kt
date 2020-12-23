@@ -24,6 +24,7 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.schedulers.Schedulers.computation
 import io.reactivex.schedulers.Schedulers.io
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -44,14 +45,13 @@ class HomeRepository @Inject constructor(
             override fun shouldFetch(data: List<GameList>?): Boolean = true
 
             override fun createCall(): Flowable<ApiResponse<List<GameResponse>>> {
-                return remoteDataSource.getGames(page = 1,perPage = 10)
+                return remoteDataSource.getGames(page = 1,perPage = 20)
             }
 
             override fun saveCallResult(data: List<GameResponse>, disposable: CompositeDisposable) {
                 val gameDetail = Mapper.mapResponsesToEntityGameList(data)
                 val db = localDataSource.addGameList(gameDetail)
                 db.subscribeOn(io())
-                    .observeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe()
             }
@@ -85,17 +85,17 @@ class HomeRepository @Inject constructor(
         }.asFlowable()
 
     @SuppressLint("CheckResult")
-    override fun getGameById(id: Int): Flowable<Resource<Game>> {
+    override fun getGameById(id: Int): Flowable<Resource<List<Game>>> {
 
-        return object : NetworkBoundResource<Game, GameDetailResponse>() {
+        return object : NetworkBoundResource<List<Game>, GameDetailResponse>() {
 
-            override fun loadFromDB(): Flowable<Game> {
+            override fun loadFromDB(): Flowable<List<Game>> {
                 return localDataSource.getGameById(id)
                     .map {
-                        if(it.isNullOrEmpty()) null else Mapper.mapGameEntityToDomain(it.get(0)) }
+                        Mapper.mapGameEntitiesToDomain(it) }
             }
 
-            override fun shouldFetch(data: Game?): Boolean = (data == null)
+            override fun shouldFetch(data: List<Game>?): Boolean = (data.isNullOrEmpty())
 
             override fun createCall(): Flowable<ApiResponse<GameDetailResponse>> {
                 return remoteDataSource.getGamesDetail(id)

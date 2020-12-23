@@ -21,7 +21,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     fun getGames(page : Int, perPage : Int): Flowable<ApiResponse<List<GameResponse>>> {
         val resultData = PublishSubject.create<ApiResponse<List<GameResponse>>>()
 
-        val client = apiService.getGames(page = 1, perPage = 10)
+        val client = apiService.getGames(page = page, perPage = perPage)
 
         client
             .subscribeOn(Schedulers.computation())

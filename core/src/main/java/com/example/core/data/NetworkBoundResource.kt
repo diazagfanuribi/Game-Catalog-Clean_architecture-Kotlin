@@ -8,6 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 
 
 abstract class NetworkBoundResource<ResultType, RequestType> {
@@ -23,14 +24,12 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({ value ->
                 dbSource.unsubscribeOn(Schedulers.io())
-                Log.i("Fetch NetworkBound", shouldFetch(value).toString())
                 if (shouldFetch(value)) {
                     fetchFromNetwork()
                 } else {
                     result.onNext(Resource.Success(value))
                 }
             },{ errors ->
-                    Log.i("Fetch NetworkBound", errors.message.toString())
                     fetchFromNetwork()})
 
         mCompositeDisposable.add(db)
@@ -55,7 +54,6 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .take(1)
-            .doOnEach { Log.i("Fetch from network", it.toString()) }
             .doOnComplete {
                 mCompositeDisposable.dispose()
             }
@@ -64,17 +62,16 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
                     is ApiResponse.Success -> {
                         saveCallResult(response.data)
                         val dbSource = loadFromDB()
-                        dbSource.subscribeOn(Schedulers.computation())
-                            .observeOn(AndroidSchedulers.mainThread())
+                        dbSource.subscribeOn(Schedulers.io())
+                            .delay(100, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                             .subscribe {
-                                Log.i("Fetch NetworkBound", it.toString())
                                 dbSource.unsubscribeOn(Schedulers.io())
                                 result.onNext(Resource.Success(it))
                             }
                     }
                     is ApiResponse.Empty -> {
                         val dbSource = loadFromDB()
-                        dbSource.subscribeOn(Schedulers.computation())
+                        dbSource.subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
                                 dbSource.unsubscribeOn(Schedulers.io())
@@ -92,5 +89,5 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
     }
 
     fun asFlowable(): Flowable<Resource<ResultType>> =
-        result.toFlowable(BackpressureStrategy.LATEST)
+        result.toFlowable(BackpressureStrategy.BUFFER)
 }

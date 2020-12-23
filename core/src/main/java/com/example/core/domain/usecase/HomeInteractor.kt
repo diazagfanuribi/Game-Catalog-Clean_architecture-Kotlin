@@ -25,7 +25,7 @@ class HomeInteractor @Inject constructor(private val repository: HomeRepository)
         repository.setFavorite(game,state)
 
 
-    override fun getGameById(id: Int): Flowable<Resource<Game>> {
+    override fun getGameById(id: Int): Flowable<Resource<List<Game>>> {
         return repository.getGameById(id)
     }
 

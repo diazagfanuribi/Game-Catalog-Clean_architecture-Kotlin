@@ -122,7 +122,6 @@
 
         </LinearLayout>
 
-
     </ScrollView>
 
     <ProgressBar
@@ -131,5 +130,28 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/game_caution_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/game_separator"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/game_caution_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="404 Error Occured"/>
+        <Button
+            android:id="@+id/game_caution_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="retry"/>
+    </LinearLayout>
 
 </FrameLayout>

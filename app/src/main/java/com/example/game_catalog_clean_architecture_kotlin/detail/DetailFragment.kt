@@ -46,14 +46,33 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             if (detail != null) {
                 when (detail) {
                     is Resource.Loading ->{
+                        binding.gameCautionLayout.visibility = View.GONE
                         binding.progressBar.visibility = View.VISIBLE}
+
                     is Resource.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        detail.data?.let { initUI(it) }
+                        if (!detail.data.isNullOrEmpty()){
+                            binding.gameCautionLayout.visibility = View.GONE
+                            detail.data?.let {
+                                Log.i("Fetch to ui",it.toString())
+                                initUI(it.first()) }
+                        }else{
+                            binding.gameCautionLayout.visibility = View.VISIBLE
+                            binding.gameCautionText.text = "Empty detail. Please Retry"
+                            binding.gameCautionButton.setOnClickListener {
+                                viewModel.getGameDetail()
+                            }
+
+                        }
 
                     }
                     is Resource.Error -> {
                         binding.progressBar.visibility = View.GONE
+                        binding.gameCautionLayout.visibility = View.VISIBLE
+                        binding.gameCautionText.text = detail.message
+                        binding.gameCautionButton.setOnClickListener {
+                            viewModel.getGameDetail()
+                        }
                     }
                 }
             }

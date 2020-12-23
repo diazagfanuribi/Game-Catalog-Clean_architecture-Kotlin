@@ -43,7 +43,7 @@ object Mapper {
                 image_url_additional = it.image_url_additional  ?: "N/A",
                 website = it.website  ?: "N/A",
                 dominant_color = it.dominant_color  ?: "N/A",
-                genre = it.genres  ?: "N/A",
+                genre = it.genres,
                 isFavorite = it.isFavorite
             )
         return game
@@ -145,13 +145,15 @@ object Mapper {
 
     fun mapDeveloperEntitiesToDomains(input : List<GameDeveloperEntity>): List<GameDeveloperModel>{
         val gameDeveloper = ArrayList<GameDeveloperModel>()
-        input.map {
-            val gameList = GameDeveloperModel(
-                id = it.id,
-                name = it.name,
-                image_url = it.image_url
-            )
-            gameDeveloper.add(gameList)
+        if (!input.isNullOrEmpty()){
+            input.map {
+                val gameList = GameDeveloperModel(
+                    id = it.id,
+                    name = it.name,
+                    image_url = it.image_url
+                )
+                gameDeveloper.add(gameList)
+            }
         }
         return gameDeveloper
     }

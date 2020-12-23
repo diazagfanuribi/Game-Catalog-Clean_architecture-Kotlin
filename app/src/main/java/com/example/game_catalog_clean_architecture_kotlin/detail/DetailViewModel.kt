@@ -20,20 +20,24 @@ class DetailViewModel @ViewModelInject constructor(
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val _gameDetail = MutableLiveData<Resource<Game>>()
+    private val _gameDetail = MutableLiveData<Resource<List<Game>>>()
 
-    val gameDetail: LiveData<Resource<Game>>
+    val gameDetail: LiveData<Resource<List<Game>>>
         get() = _gameDetail
 
     init {
+        getGameDetail()
+
+    }
+
+    fun getGameDetail(){
         mDisposable.add(
             homeUseCase.getGameById(args.game.id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{
-                _gameDetail.postValue(it)
-         })
-
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    _gameDetail.postValue(it)
+                })
     }
 
     fun updateFavorite(game: Game, isFavorite: Boolean) =

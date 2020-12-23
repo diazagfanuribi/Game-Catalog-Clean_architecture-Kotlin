@@ -15,7 +15,7 @@ interface HomeUseCase {
 
     fun setFavorite(game: Game, state: Boolean): Completable
 
-    fun getGameById(id: Int): Flowable<Resource<Game>>
+    fun getGameById(id: Int): Flowable<Resource<List<Game>>>
 
     fun getGameList(): Flowable<Resource<List<GameList>>>
 
