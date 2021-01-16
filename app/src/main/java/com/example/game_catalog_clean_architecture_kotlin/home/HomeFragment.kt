@@ -73,9 +73,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvDeveloper.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             rvDeveloper.setHasFixedSize(true)
             rvDeveloper.adapter = developerAdapter
-            dev_caution_button.setOnClickListener {
-
-            }
         }
 
         with(binding) {
@@ -108,6 +105,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        developerAdapter.onItemClick = null
+        binding.nestedScrollHome.removeAllViewsInLayout()
         _binding = null
     }
 
