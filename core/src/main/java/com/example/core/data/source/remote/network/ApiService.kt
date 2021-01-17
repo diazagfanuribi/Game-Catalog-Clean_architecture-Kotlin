@@ -1,11 +1,9 @@
 package com.example.core.data.source.remote.network
 
-import com.example.core.data.source.remote.response.ListGameResponses
-import com.example.core.data.source.remote.response.ListGameDeveloperResponses
 import com.example.core.data.source.remote.response.GameDetailResponse
-import dagger.Provides
+import com.example.core.data.source.remote.response.ListGameDeveloperResponses
+import com.example.core.data.source.remote.response.ListGameResponses
 import io.reactivex.Flowable
-import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

@@ -56,6 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_gravity="center"
+                        android:textColor="@color/white"
                         android:textSize="18sp"
                         android:text="Rating" />
 
@@ -83,6 +84,7 @@
                 android:ellipsize="end"
                 tools:text="Title"
                 tools:visibility="visible" />
+
             <TextView
                 android:id="@+id/text_view_description"
                 android:layout_width="wrap_content"
@@ -104,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/website"
-                    android:layout_weight="0"/>
+                    android:layout_weight="0" />
 
                 <TextView
                     android:id="@+id/text_view_creator"
@@ -129,7 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/game_caution_layout"
@@ -142,16 +144,18 @@
         app:layout_constraintTop_toBottomOf="@id/game_separator"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <TextView
             android:id="@+id/game_caution_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="404 Error Occured"/>
+            tools:text="404 Error Occured" />
+
         <Button
             android:id="@+id/game_caution_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="retry"/>
+            android:text="retry" />
     </LinearLayout>
 
 </FrameLayout>

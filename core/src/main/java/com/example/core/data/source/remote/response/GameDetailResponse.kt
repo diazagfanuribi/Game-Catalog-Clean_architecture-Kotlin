@@ -1,6 +1,5 @@
 package com.example.core.data.source.remote.response
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class GameDetailResponse(

@@ -8,8 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.core.R
 import com.example.core.databinding.ItemDeveloperCardBinding
 import com.example.core.domain.model.GameDeveloperModel
-
-import java.util.ArrayList
+import java.util.*
 
 class DeveloperAdapter : RecyclerView.Adapter<DeveloperAdapter.ListViewHolder>() {
 
@@ -24,7 +23,9 @@ class DeveloperAdapter : RecyclerView.Adapter<DeveloperAdapter.ListViewHolder>()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_developer_card, parent, false))
+        ListViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_developer_card, parent, false)
+        )
 
     override fun getItemCount() = listData.size
 

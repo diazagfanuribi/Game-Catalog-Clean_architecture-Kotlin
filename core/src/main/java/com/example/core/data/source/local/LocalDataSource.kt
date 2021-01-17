@@ -7,19 +7,18 @@ import com.example.core.data.source.local.room.GameDao
 import com.example.core.data.source.local.room.GameDeveloperDao
 import com.example.core.data.source.local.room.GamelistDao
 import io.reactivex.Flowable
-import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class LocalDataSource @Inject constructor(
-    val gameDao: GameDao,
-    val gameDeveloperDao: GameDeveloperDao,
-    val gameListDao: GamelistDao
+    private val gameDao: GameDao,
+    private val gameDeveloperDao: GameDeveloperDao,
+    private val gameListDao: GamelistDao
 ) {
     fun getGameList(): Flowable<List<GameListEntity>> = gameListDao.getGameList()
 
-    fun addGameList(gameList : List<GameListEntity>) = gameListDao.addGameList(gameList)
+    fun addGameList(gameList: List<GameListEntity>) = gameListDao.addGameList(gameList)
 
     fun getAllDeveloper(): Flowable<List<GameDeveloperEntity>> = gameDeveloperDao.getAllDeveloper()
 
@@ -34,7 +33,7 @@ class LocalDataSource @Inject constructor(
 
     fun addGame(gameEntity: GameEntity) = gameDao.addGame(gameEntity)
 
-    fun getGameById(id : Int): Flowable<List<GameEntity>> {
+    fun getGameById(id: Int): Flowable<List<GameEntity>> {
         return gameDao.getGameById(id = id)
     }
 }

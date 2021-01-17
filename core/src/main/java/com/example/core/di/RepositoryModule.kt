@@ -1,4 +1,5 @@
 package com.example.core.di
+
 import com.example.core.data.HomeRepository
 import com.example.core.domain.repository.IHomeRepository
 import dagger.Binds

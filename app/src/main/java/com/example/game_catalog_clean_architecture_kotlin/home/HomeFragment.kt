@@ -4,23 +4,20 @@ package com.example.game_catalog_clean_architecture_kotlin.home
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.widget.Toast
+import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.game_catalog_clean_architecture_kotlin.R
 import com.example.core.data.Resource
 import com.example.core.ui.DeveloperAdapter
 import com.example.core.ui.GameAdapter
+import com.example.game_catalog_clean_architecture_kotlin.R
 import com.example.game_catalog_clean_architecture_kotlin.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
+
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
@@ -30,7 +27,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding get() = _binding!!
     private lateinit var developerAdapter: DeveloperAdapter
     private lateinit var gameAdapter: GameAdapter
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -70,7 +66,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         with(binding) {
-            rvDeveloper.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            rvDeveloper.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             rvDeveloper.setHasFixedSize(true)
             rvDeveloper.adapter = developerAdapter
         }
@@ -96,12 +93,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             }
         }
-
-
-
-
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

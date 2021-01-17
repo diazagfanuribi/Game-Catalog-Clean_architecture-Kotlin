@@ -1,14 +1,6 @@
 package com.example.core.data
 
-import android.util.Log
-import androidx.paging.rxjava2.RxPagingSource
-import com.example.core.data.source.remote.RemoteDataSource
-import com.example.core.domain.model.GameList
-import com.example.core.utils.Mapper
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
-
-const val STARTING_PAGE=1
+const val STARTING_PAGE = 1
 
 //class GamesPagingSource(val remoteDataSource: RemoteDataSource) : RxPagingSource<Int, GameList>() {
 //    override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, GameList>> {

@@ -9,10 +9,10 @@ import io.reactivex.Single
 @Dao
 interface GameDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addGames(games : List<GameEntity>) : Completable
+    fun addGames(games: List<GameEntity>): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addGame(games : GameEntity) : Completable
+    fun addGame(games: GameEntity): Completable
 
     @Update
     fun updateFavorite(game: GameEntity): Completable

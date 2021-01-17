@@ -11,7 +11,7 @@ import io.reactivex.Flowable
 @Dao
 interface GameDeveloperDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addDeveloper(developer : List<GameDeveloperEntity>): Completable
+    fun addDeveloper(developer: List<GameDeveloperEntity>): Completable
 
     @Query("SELECT * FROM gameDeveloper")
     fun getAllDeveloper(): Flowable<List<GameDeveloperEntity>>

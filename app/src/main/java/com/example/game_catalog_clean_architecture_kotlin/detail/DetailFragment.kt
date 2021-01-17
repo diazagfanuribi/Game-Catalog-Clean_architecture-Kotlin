@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
-    companion object{
+    companion object {
         const val BUNDLE_ARGS = "Game"
     }
 
@@ -35,28 +35,30 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val args by navArgs<DetailFragmentArgs>()
 
-    lateinit private var binding: FragmentDetailBinding
+    private lateinit var binding: FragmentDetailBinding
 
-    private val viewModel : DetailViewModel by viewModels()
+    private val viewModel: DetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailBinding.bind(view)
-        viewModel.gameDetail.observe(viewLifecycleOwner){ detail ->
+        viewModel.gameDetail.observe(viewLifecycleOwner) { detail ->
             if (detail != null) {
                 when (detail) {
-                    is Resource.Loading ->{
+                    is Resource.Loading -> {
                         binding.gameCautionLayout.visibility = View.GONE
-                        binding.progressBar.visibility = View.VISIBLE}
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
 
                     is Resource.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        if (!detail.data.isNullOrEmpty()){
+                        if (!detail.data.isNullOrEmpty()) {
                             binding.gameCautionLayout.visibility = View.GONE
                             detail.data?.let {
-                                Log.i("Fetch to ui",it.toString())
-                                initUI(it.first()) }
-                        }else{
+                                Log.i("Fetch to ui", it.toString())
+                                initUI(it.first())
+                            }
+                        } else {
                             binding.gameCautionLayout.visibility = View.VISIBLE
                             binding.gameCautionText.text = "Empty detail. Please Retry"
 
@@ -83,8 +85,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     }
 
 
-    fun initUIArgs(data : GameList){
-        with(binding){
+    fun initUIArgs(data: GameList) {
+        with(binding) {
             Glide.with(this@DetailFragment)
                 .load(data.image_url)
                 .into(imageView)
@@ -94,8 +96,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             setStatusFavorite(data.isFavorite)
         }
     }
-    fun initUI(data : Game){
-        with(binding){
+
+    private fun initUI(data: Game) {
+        with(binding) {
             Glide.with(this@DetailFragment)
                 .load(data.image_url)
                 .into(imageView)
@@ -106,7 +109,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             ratingBarGame.rating = data.rating
             setStatusFavorite(data.isFavorite)
             fab.setOnClickListener {
-                viewModel.updateFavorite(data,!data.isFavorite)
+                viewModel.updateFavorite(data, !data.isFavorite)
                 setStatusFavorite(!data.isFavorite)
             }
         }
@@ -114,9 +117,19 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private fun setStatusFavorite(statusFavorite: Boolean) {
         if (statusFavorite) {
-            binding.fab.setImageDrawable(ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_star_fill_white))
+            binding.fab.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this.requireContext(),
+                    R.drawable.ic_star_fill_white
+                )
+            )
         } else {
-            binding.fab.setImageDrawable(ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_star_border_white))
+            binding.fab.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this.requireContext(),
+                    R.drawable.ic_star_border_white
+                )
+            )
         }
     }
 }

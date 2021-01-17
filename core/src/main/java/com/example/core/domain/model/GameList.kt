@@ -17,4 +17,4 @@ data class GameList(
     val image_url: String,
 
     val isFavorite: Boolean = false
-):Parcelable
+) : Parcelable
