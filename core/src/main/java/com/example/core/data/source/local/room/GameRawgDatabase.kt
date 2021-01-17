@@ -7,7 +7,7 @@ import com.example.core.data.source.local.entity.GameEntity
 import com.example.core.data.source.local.entity.GameListEntity
 
 @Database(
-    entities = [GameEntity::class, GameDeveloperEntity::class,GameListEntity::class],
+    entities = [GameEntity::class, GameDeveloperEntity::class, GameListEntity::class],
     version = 1,
     exportSchema = false
 )

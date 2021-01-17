@@ -1,19 +1,18 @@
 package com.example.core.data.source.remote.response
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class ListGameResponses(
-        @field:SerializedName("count")
-        val count : Int,
+    @field:SerializedName("count")
+    val count: Int,
 
-        @field:SerializedName("next")
-        val next : String,
+    @field:SerializedName("next")
+    val next: String,
 
-        @field:SerializedName("previous")
-        val previous : String?,
+    @field:SerializedName("previous")
+    val previous: String?,
 
-        @field:SerializedName("results")
-        val results : List<GameResponse>
+    @field:SerializedName("results")
+    val results: List<GameResponse>
 
 )

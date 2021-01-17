@@ -14,7 +14,8 @@
     </dist:module>
 
     <application>
-        <activity android:name=".detail.DetailFavoritActivity"
+        <activity
+            android:name=".detail.DetailFavoritActivity"
             android:theme="@style/Theme.GameCatalogClean_architectureKotlin.NoActionBar"></activity>
         <activity
             android:name=".FavoriteActivity"

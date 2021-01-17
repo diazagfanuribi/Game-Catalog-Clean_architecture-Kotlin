@@ -1,16 +1,17 @@
 package com.example.favorite
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.favorite.di.DaggerFragmentComponent
 import com.example.core.di.CoreDependency
 import com.example.core.ui.FavoriteAdapter
 import com.example.favorite.databinding.ActivityFavoriteBinding
 import com.example.favorite.detail.DetailFavoritActivity
+import com.example.favorite.di.DaggerFragmentComponent
 import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
@@ -19,10 +20,11 @@ class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
     private lateinit var favoriteAdapter: FavoriteAdapter
+
     @Inject
     lateinit var factory: FavoriteViewModelFactory
 
-    val favoriteViewModel: FavoriteViewModel by viewModels(){
+    private val favoriteViewModel: FavoriteViewModel by viewModels {
         factory
     }
 
@@ -45,15 +47,20 @@ class FavoriteActivity : AppCompatActivity() {
             rvFavorite.setHasFixedSize(true)
             rvFavorite.adapter = favoriteAdapter
         }
-        favoriteViewModel.favoriteGame.observe(this, Observer{ dataTourism ->
+        favoriteViewModel.favoriteGame.observe(this, Observer { dataTourism ->
             favoriteAdapter.setData(dataTourism)
+            if (dataTourism.isEmpty()) {
+                binding.emptyText.visibility = View.VISIBLE
+            } else {
+                binding.emptyText.visibility = View.GONE
+            }
         })
 
 
         setSupportActionBar(binding.toolbar)
     }
 
-    fun initCoreInjection(){
+    private fun initCoreInjection() {
         val coreModuleDependencies = EntryPointAccessors.fromApplication(
             applicationContext,
             CoreDependency::class.java

@@ -2,14 +2,12 @@ package com.example.game_catalog_clean_architecture_kotlin
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -30,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
         val navHostFragment =
-                supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -47,12 +45,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.search_menu ->{
+        return when (item.itemId) {
+            R.id.search_menu -> {
                 Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show()
                 true
             }
-            R.id.favorite_menu ->{
+            R.id.favorite_menu -> {
                 val uri = Uri.parse("gamecatalog://favorite")
                 startActivity(Intent(Intent.ACTION_VIEW, uri))
                 true

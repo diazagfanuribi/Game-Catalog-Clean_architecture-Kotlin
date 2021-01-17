@@ -3,15 +3,12 @@ package com.example.core.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.core.R
 import com.example.core.databinding.ItemGameListBinding
-import com.example.core.domain.model.Game
 import com.example.core.domain.model.GameList
-import java.util.ArrayList
+import java.util.*
 
 
 class GameAdapter : RecyclerView.Adapter<GameAdapter.ListViewHolder>() {
@@ -27,7 +24,9 @@ class GameAdapter : RecyclerView.Adapter<GameAdapter.ListViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_game_list, parent, false))
+        ListViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_game_list, parent, false)
+        )
 
     override fun getItemCount() = listData.size
 

@@ -1,6 +1,5 @@
 package com.example.core.domain.usecase
 
-import androidx.paging.PagingData
 import com.example.core.data.Resource
 import com.example.core.domain.model.Game
 import com.example.core.domain.model.GameDeveloperModel
@@ -9,7 +8,7 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 
 interface HomeUseCase {
-    fun getDeveloper() : Flowable<Resource<List<GameDeveloperModel>>>
+    fun getDeveloper(): Flowable<Resource<List<GameDeveloperModel>>>
 
     fun getFavorite(): Flowable<List<Game>>
 

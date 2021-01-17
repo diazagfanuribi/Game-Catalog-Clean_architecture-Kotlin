@@ -1,19 +1,12 @@
 package com.example.core.data
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.rxjava2.flowable
 import com.example.core.data.source.local.LocalDataSource
-import com.example.core.data.source.local.entity.GameEntity
 import com.example.core.data.source.remote.RemoteDataSource
 import com.example.core.data.source.remote.network.ApiResponse
 import com.example.core.data.source.remote.response.GameDetailResponse
 import com.example.core.data.source.remote.response.GameDeveloperResponse
 import com.example.core.data.source.remote.response.GameResponse
-import com.example.core.data.source.remote.response.ListGameResponses
 import com.example.core.domain.model.Game
 import com.example.core.domain.model.GameDeveloperModel
 import com.example.core.domain.model.GameList
@@ -23,12 +16,10 @@ import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.Schedulers.computation
 import io.reactivex.schedulers.Schedulers.io
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class HomeRepository @Inject constructor(
     val remoteDataSource: RemoteDataSource,
@@ -45,7 +36,7 @@ class HomeRepository @Inject constructor(
             override fun shouldFetch(data: List<GameList>?): Boolean = true
 
             override fun createCall(): Flowable<ApiResponse<List<GameResponse>>> {
-                return remoteDataSource.getGames(page = 1,perPage = 20)
+                return remoteDataSource.getGames(page = 1, perPage = 20)
             }
 
             override fun saveCallResult(data: List<GameResponse>, disposable: CompositeDisposable) {
@@ -68,13 +59,17 @@ class HomeRepository @Inject constructor(
                     }
             }
 
-            override fun shouldFetch(data: List<GameDeveloperModel>?): Boolean =  (data.isNullOrEmpty())
+            override fun shouldFetch(data: List<GameDeveloperModel>?): Boolean =
+                (data.isNullOrEmpty())
 
             override fun createCall(): Flowable<ApiResponse<List<GameDeveloperResponse>>> {
                 return remoteDataSource.getDeveloper()
             }
 
-            override fun saveCallResult(data: List<GameDeveloperResponse>,disposable : CompositeDisposable) {
+            override fun saveCallResult(
+                data: List<GameDeveloperResponse>,
+                disposable: CompositeDisposable
+            ) {
                 val gameDeveloper = Mapper.mapDeveloperResponseToEntities(data)
 
                 localDataSource.addDeveloper(gameDeveloper)
@@ -92,7 +87,8 @@ class HomeRepository @Inject constructor(
             override fun loadFromDB(): Flowable<List<Game>> {
                 return localDataSource.getGameById(id)
                     .map {
-                        Mapper.mapGameEntitiesToDomain(it) }
+                        Mapper.mapGameEntitiesToDomain(it)
+                    }
             }
 
             override fun shouldFetch(data: List<Game>?): Boolean = (data.isNullOrEmpty())
