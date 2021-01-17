@@ -3,17 +3,18 @@ package com.example.game_catalog_clean_architecture_kotlin.detail
 import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.example.core.data.Resource
 import com.example.core.domain.model.Game
 import com.example.core.domain.usecase.HomeUseCase
-import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class DetailViewModel @ViewModelInject constructor(
-    val homeUseCase: HomeUseCase, @Assisted savedStateHandle: SavedStateHandle
+    private val homeUseCase: HomeUseCase, @Assisted savedStateHandle: SavedStateHandle
 ) : BaseDetailViewModel(savedStateHandle) {
 
     private val mDisposable = CompositeDisposable()
@@ -30,12 +31,12 @@ class DetailViewModel @ViewModelInject constructor(
 
     }
 
-    fun getGameDetail(){
+    fun getGameDetail() {
         mDisposable.add(
             homeUseCase.getGameById(args.game.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{
+                .subscribe {
                     _gameDetail.postValue(it)
                 })
     }

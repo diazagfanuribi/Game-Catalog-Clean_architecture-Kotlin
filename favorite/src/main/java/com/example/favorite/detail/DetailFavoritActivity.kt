@@ -1,16 +1,13 @@
 package com.example.favorite.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.core.di.CoreDependency
 import com.example.core.domain.model.Game
 import com.example.favorite.DetailFavoritViewModelFactory
-import com.example.favorite.FavoriteViewModel
-import com.example.favorite.FavoriteViewModelFactory
-import com.example.favorite.R
 import com.example.favorite.databinding.ActivityDetailFavoritBinding
 import com.example.favorite.di.DaggerFragmentComponent
 import dagger.hilt.android.EntryPointAccessors
@@ -25,7 +22,7 @@ class DetailFavoritActivity : AppCompatActivity() {
     @Inject
     lateinit var factory: DetailFavoritViewModelFactory
 
-    val viewModel: DetailFavoritViewModel by viewModels(){
+    private val viewModel: DetailFavoritViewModel by viewModels {
         factory
     }
 
@@ -42,8 +39,8 @@ class DetailFavoritActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
     }
 
-    fun initUI(data : Game){
-        with(binding){
+    private fun initUI(data: Game) {
+        with(binding) {
             Glide.with(this@DetailFavoritActivity)
                 .load(data.image_url)
                 .into(imageView)
@@ -54,7 +51,7 @@ class DetailFavoritActivity : AppCompatActivity() {
             ratingBarGame.rating = data.rating
             setStatusFavorite(data.isFavorite)
             fab.setOnClickListener {
-                viewModel.updateFavorite(data,!data.isFavorite)
+                viewModel.updateFavorite(data, !data.isFavorite)
                 setStatusFavorite(!data.isFavorite)
                 data.isFavorite = !data.isFavorite
             }
@@ -63,13 +60,23 @@ class DetailFavoritActivity : AppCompatActivity() {
 
     private fun setStatusFavorite(statusFavorite: Boolean) {
         if (statusFavorite) {
-            binding.fab.setImageDrawable(ContextCompat.getDrawable(this, com.example.game_catalog_clean_architecture_kotlin.R.drawable.ic_star_fill_white))
+            binding.fab.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    com.example.game_catalog_clean_architecture_kotlin.R.drawable.ic_star_fill_white
+                )
+            )
         } else {
-            binding.fab.setImageDrawable(ContextCompat.getDrawable(this, com.example.game_catalog_clean_architecture_kotlin.R.drawable.ic_star_border_white))
+            binding.fab.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    com.example.game_catalog_clean_architecture_kotlin.R.drawable.ic_star_border_white
+                )
+            )
         }
     }
 
-    fun initCoreInjection(){
+    private fun initCoreInjection() {
         val coreModuleDependencies = EntryPointAccessors.fromApplication(
             applicationContext,
             CoreDependency::class.java

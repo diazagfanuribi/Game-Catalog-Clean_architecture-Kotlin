@@ -1,14 +1,11 @@
 package com.example.core.domain.usecase
 
-import android.util.Log
-import androidx.paging.PagingData
 import com.example.core.data.HomeRepository
 import com.example.core.data.Resource
 import com.example.core.domain.model.Game
 import com.example.core.domain.model.GameDeveloperModel
 import com.example.core.domain.model.GameList
 import io.reactivex.Flowable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class HomeInteractor @Inject constructor(private val repository: HomeRepository) : HomeUseCase {
@@ -22,7 +19,7 @@ class HomeInteractor @Inject constructor(private val repository: HomeRepository)
     }
 
     override fun setFavorite(game: Game, state: Boolean) =
-        repository.setFavorite(game,state)
+        repository.setFavorite(game, state)
 
 
     override fun getGameById(id: Int): Flowable<Resource<List<Game>>> {
@@ -30,6 +27,6 @@ class HomeInteractor @Inject constructor(private val repository: HomeRepository)
     }
 
     override fun getGameList(): Flowable<Resource<List<GameList>>> {
-        return  repository.getGameList()
+        return repository.getGameList()
     }
 }

@@ -1,8 +1,8 @@
 package com.example.favorite.di
 
 import android.app.Activity
-import com.example.favorite.FavoriteActivity
 import com.example.core.di.CoreDependency
+import com.example.favorite.FavoriteActivity
 import com.example.favorite.detail.DetailFavoritActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -21,7 +21,7 @@ interface FragmentComponent {
     interface Factory {
         fun create(
             dependentModule: CoreDependency,
-            @BindsInstance activity:Activity
+            @BindsInstance activity: Activity
         ): FragmentComponent
     }
 

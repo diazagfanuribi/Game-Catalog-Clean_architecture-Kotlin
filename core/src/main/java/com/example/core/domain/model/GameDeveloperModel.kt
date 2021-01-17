@@ -10,4 +10,4 @@ data class GameDeveloperModel(
     val name: String,
 
     val image_url: String
-):Parcelable
+) : Parcelable

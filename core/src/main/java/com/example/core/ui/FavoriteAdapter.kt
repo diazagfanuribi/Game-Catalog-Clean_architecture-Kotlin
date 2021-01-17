@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.core.R
 import com.example.core.databinding.ItemGameListBinding
 import com.example.core.domain.model.Game
-import java.util.ArrayList
+import java.util.*
 
 class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.ListViewHolder>() {
 
@@ -23,7 +23,9 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.ListViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_game_list, parent, false))
+        ListViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_game_list, parent, false)
+        )
 
     override fun getItemCount() = listData.size
 

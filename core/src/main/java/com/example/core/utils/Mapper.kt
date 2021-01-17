@@ -15,17 +15,17 @@ object Mapper {
         val gameList = ArrayList<GameEntity>()
         input.map {
             val game = GameEntity(
-                    pk = it.id,
-                    name=it.name ?: "N/A",
-                    release = it.release ?: "N/A",
-                    rating = it.rating  ?: 0F,
-                    image_url = it.image_url  ?: "N/A",
-                    description = it.description  ?: "N/A",
-                    image_url_additional = it.image_url_additional  ?: "N/A",
-                    website = it.website  ?: "N/A",
-                    dominant_color = it.dominant_color  ?: "N/A",
-                    genre = it.genres  ?: "N/A",
-                    isFavorite = it.isFavorite
+                pk = it.id,
+                name = it.name ?: "N/A",
+                release = it.release ?: "N/A",
+                rating = it.rating ?: 0F,
+                image_url = it.image_url ?: "N/A",
+                description = it.description ?: "N/A",
+                image_url_additional = it.image_url_additional ?: "N/A",
+                website = it.website ?: "N/A",
+                dominant_color = it.dominant_color ?: "N/A",
+                genre = it.genres,
+                isFavorite = it.isFavorite
             )
             gameList.add(game)
         }
@@ -33,43 +33,28 @@ object Mapper {
     }
 
     fun mapGameResponseToEntity(it: GameDetailResponse): GameEntity {
-            val game = GameEntity(
-                pk = it.id,
-                name=it.name ?: "N/A",
-                release = it.release ?: "N/A",
-                rating = it.rating  ?: 0F,
-                image_url = it.image_url  ?: "N/A",
-                description = it.description  ?: "N/A",
-                image_url_additional = it.image_url_additional  ?: "N/A",
-                website = it.website  ?: "N/A",
-                dominant_color = it.dominant_color  ?: "N/A",
-                genre = it.genres,
-                isFavorite = it.isFavorite
-            )
+        val game = GameEntity(
+            pk = it.id,
+            name = it.name ?: "N/A",
+            release = it.release ?: "N/A",
+            rating = it.rating ?: 0F,
+            image_url = it.image_url ?: "N/A",
+            description = it.description ?: "N/A",
+            image_url_additional = it.image_url_additional ?: "N/A",
+            website = it.website ?: "N/A",
+            dominant_color = it.dominant_color ?: "N/A",
+            genre = it.genres,
+            isFavorite = it.isFavorite
+        )
         return game
 
     }
 
     fun mapGameEntitiesToDomain(input: List<GameEntity>): List<Game> =
-            input.map {
-                Game(
-                        pk = it.pk,
-                        name=it.name,
-                        release = it.release,
-                        rating = it.rating,
-                        image_url = it.image_url,
-                        description = it.description,
-                        image_url_additional = it.image_url_additional,
-                        website = it.website,
-                        dominant_color = it.dominant_color,
-                        genre = it.genre,
-                        isFavorite = it.isFavorite
-                )
-            }
-
-    fun mapGameEntityToDomain(it: GameEntity): Game= Game(
+        input.map {
+            Game(
                 pk = it.pk,
-                name=it.name,
+                name = it.name,
                 release = it.release,
                 rating = it.rating,
                 image_url = it.image_url,
@@ -80,23 +65,38 @@ object Mapper {
                 genre = it.genre,
                 isFavorite = it.isFavorite
             )
+        }
+
+    fun mapGameEntityToDomain(it: GameEntity): Game = Game(
+        pk = it.pk,
+        name = it.name,
+        release = it.release,
+        rating = it.rating,
+        image_url = it.image_url,
+        description = it.description,
+        image_url_additional = it.image_url_additional,
+        website = it.website,
+        dominant_color = it.dominant_color,
+        genre = it.genre,
+        isFavorite = it.isFavorite
+    )
 
 
     fun mapDomainToEntity(it: Game) = GameEntity(
-            pk = it.pk,
-            name=it.name,
-            release = it.release,
-            rating = it.rating,
-            image_url = it.image_url,
-            description = it.description,
-            image_url_additional = it.image_url_additional,
-            website = it.website,
-            dominant_color = it.dominant_color,
-            genre = it.genre,
-            isFavorite = it.isFavorite
+        pk = it.pk,
+        name = it.name,
+        release = it.release,
+        rating = it.rating,
+        image_url = it.image_url,
+        description = it.description,
+        image_url_additional = it.image_url_additional,
+        website = it.website,
+        dominant_color = it.dominant_color,
+        genre = it.genre,
+        isFavorite = it.isFavorite
     )
 
-    fun mapResponsesToDomainGameList(input : List<GameResponse>): List<GameList>{
+    fun mapResponsesToDomainGameList(input: List<GameResponse>): List<GameList> {
         val gameLists = ArrayList<GameList>()
         input.map {
             val gameList = GameList(
@@ -112,22 +112,23 @@ object Mapper {
         return gameLists
     }
 
-    fun mapEntityToDomainGameList(input : List<GameListEntity>): List<GameList>{
+    fun mapEntityToDomainGameList(input: List<GameListEntity>): List<GameList> {
         val gameLists = ArrayList<GameList>()
         input.map {
             val gameList = GameList(
                 id = it.id,
-                name = it.name ,
-                release = it.release ,
-                rating = it.rating ,
-                image_url = it.image_url ,
+                name = it.name,
+                release = it.release,
+                rating = it.rating,
+                image_url = it.image_url,
                 isFavorite = it.isFavorite
             )
             gameLists.add(gameList)
         }
         return gameLists
     }
-    fun mapResponsesToEntityGameList(input : List<GameResponse>): List<GameListEntity>{
+
+    fun mapResponsesToEntityGameList(input: List<GameResponse>): List<GameListEntity> {
         val gameLists = ArrayList<GameListEntity>()
         input.map {
             val gameList = GameListEntity(
@@ -143,9 +144,9 @@ object Mapper {
         return gameLists
     }
 
-    fun mapDeveloperEntitiesToDomains(input : List<GameDeveloperEntity>): List<GameDeveloperModel>{
+    fun mapDeveloperEntitiesToDomains(input: List<GameDeveloperEntity>): List<GameDeveloperModel> {
         val gameDeveloper = ArrayList<GameDeveloperModel>()
-        if (!input.isNullOrEmpty()){
+        if (!input.isNullOrEmpty()) {
             input.map {
                 val gameList = GameDeveloperModel(
                     id = it.id,
@@ -158,7 +159,7 @@ object Mapper {
         return gameDeveloper
     }
 
-    fun mapDeveloperDomainsToEntities(input : List<GameDeveloperModel>): List<GameDeveloperEntity>{
+    fun mapDeveloperDomainsToEntities(input: List<GameDeveloperModel>): List<GameDeveloperEntity> {
         val gameDeveloper = ArrayList<GameDeveloperEntity>()
         input.map {
             val gameList = GameDeveloperEntity(
@@ -171,7 +172,7 @@ object Mapper {
         return gameDeveloper
     }
 
-    fun mapDeveloperResponseToEntities(input : List<GameDeveloperResponse>): List<GameDeveloperEntity>{
+    fun mapDeveloperResponseToEntities(input: List<GameDeveloperResponse>): List<GameDeveloperEntity> {
         val gameDeveloper = ArrayList<GameDeveloperEntity>()
         input.map {
             val gameList = GameDeveloperEntity(

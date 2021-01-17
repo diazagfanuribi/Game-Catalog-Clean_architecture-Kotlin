@@ -1,4 +1,5 @@
 package com.example.core.di
+
 import android.content.Context
 import androidx.room.Room
 import com.example.core.data.source.local.room.GameDao
@@ -36,7 +37,8 @@ class DatabaseModule {
     fun provideGameDao(database: GameRawgDatabase): GameDao = database.provideGameDao()
 
     @Provides
-    fun provideGameDeveloperDao(database: GameRawgDatabase): GameDeveloperDao = database.provideGameDeveloper()
+    fun provideGameDeveloperDao(database: GameRawgDatabase): GameDeveloperDao =
+        database.provideGameDeveloper()
 
     @Provides
     fun provideGameListDao(database: GameRawgDatabase): GamelistDao = database.provideGameList()

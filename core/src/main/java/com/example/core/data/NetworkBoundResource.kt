@@ -1,6 +1,5 @@
 package com.example.core.data
 
-import android.util.Log
 import com.example.core.data.source.remote.network.ApiResponse
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -22,15 +21,16 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
         val db = dbSource
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({ value ->
+            .subscribe({ value ->
                 dbSource.unsubscribeOn(Schedulers.io())
                 if (shouldFetch(value)) {
                     fetchFromNetwork()
                 } else {
                     result.onNext(Resource.Success(value))
                 }
-            },{ errors ->
-                    fetchFromNetwork()})
+            }, { errors ->
+                fetchFromNetwork()
+            })
 
         mCompositeDisposable.add(db)
     }
@@ -45,7 +45,10 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
     protected abstract fun createCall(): Flowable<ApiResponse<RequestType>>
 
-    protected abstract fun saveCallResult(data: RequestType, disposable: CompositeDisposable =mCompositeDisposable)
+    protected abstract fun saveCallResult(
+        data: RequestType,
+        disposable: CompositeDisposable = mCompositeDisposable
+    )
 
     private fun fetchFromNetwork() {
         val apiResponse = createCall()
